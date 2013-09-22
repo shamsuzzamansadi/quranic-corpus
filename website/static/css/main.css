@@ -1,0 +1,742 @@
+body {
+	font-family: Georgia;
+	margin: 0;
+}
+
+table.toolbar {
+	font-size: 12px;
+	font-family: Arial;
+	width: 100%;
+	border-bottom: 1px solid rgb(222, 222, 222);
+	background-color: rgb(240, 240, 240);
+	text-align: right;
+}
+
+table.toolbar td {
+	color: #999;
+	padding-right: 8px;
+	padding-top: 3px;
+	padding-bottom: 4px;
+}
+
+table.toolbar td a {
+	color: #4886D0;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+table.toolbar td span {
+	color: #365F91;
+	font-weight: bold;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+table.pageTemplate td.logo1 {
+	padding-top: 0.8em;
+	padding-bottom: 0.8em;
+	padding-left: 0.4em;
+	padding-right: 0.5em;
+	background: rgb(255, 255, 185);
+}
+
+table.pageTemplate td.logoPad {
+	color: rgb(189, 206, 107);
+	background: rgb(189, 206, 107);
+}
+
+table.pageTemplate td.userBox {
+	font-size: 0.833em;
+  vertical-align: top;
+}
+
+table.pageTemplate td.userBox a {
+	color:rgb(128, 128, 128);
+}
+
+table.pageTemplate td.searchBox {
+	text-align: right;
+	vertical-align: top;
+	padding-top: 0.5em;
+}
+
+table.pageTemplate td.searchBox input {
+	font-size: 0.83em;
+}
+
+table.pageTemplate td.searchBox a {
+	font-size: 0.83em;
+}
+
+table.pageTemplate td.pad {
+	border-left: 3px solid rgb(220, 224, 190);
+	color: white;
+}
+
+table.pageTemplate td.leftfooter {
+	background: rgb(62, 58, 55);
+	font-size: 0.8333em;
+	padding-left: 5px;
+	padding-top: 3em;
+	padding-bottom: 5em;
+}
+
+table.pageTemplate td.leftfooter a {
+	color: rgb(166, 166, 166);
+}
+
+table.pageTemplate td.footer {
+	padding-top: 3em;
+	padding-bottom: 5em;
+}
+
+table.pageTemplate td.footer p {
+	font-size: 0.83em;
+	text-align: center;
+	margin: 0;
+	margin-bottom: 0.15em;
+	color: rgb(128, 128, 128);
+}
+
+a,a:visited {
+	color: rgb(72, 134, 208);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+table.pageTemplate td.contentCell {
+	vertical-align: top;
+}
+
+table.pageTemplate td.contentCell div.content {
+	width: 740px;
+	text-align: justify;
+	line-height: 1.33em;
+}
+
+table.pageTemplate td.title h2 {
+	margin: 0;
+}
+
+h2 span.ax {
+	font: 1.2em Times New Roman;
+}
+
+table.pageTemplate td.leedsLogo {
+	text-align: right;
+	vertical-align: bottom;
+}
+
+table.pageTemplate td.leedsText {
+	font: 0.833em Arial;
+	text-align: right;
+	vertical-align: top;
+	padding-top: 0.4em;
+	border-bottom: 2px solid rgb(210, 210, 210);
+}
+
+table.pageTemplate td.leedsText a {
+	color: rgb(128, 128, 128);
+}
+
+div.bismi {
+	text-align: center;
+	margin-top: 4em;
+}
+
+h3.chapterName {
+	margin: 0;
+	text-align: center;
+	margin-top: 0.6em;
+	margin-bottom: 0.6em;
+	color: rgb(0, 172, 0);
+	font-weight: normal;
+}
+
+h2 {
+	font: 1.4em Tahoma;
+	color: rgb(54, 95, 145);
+	margin-bottom: 0;
+}
+
+h4 {
+	margin-bottom: 0.4em;
+}
+
+p.first {
+	margin-top: 0;
+}
+
+ul.also {
+	margin: 0;
+	padding-left: 1em;
+}
+
+img {
+	border: 0;
+}
+
+pre {
+	font: 10pt courier new;
+	color: rgb(0, 0, 128);
+	background: rgb(243, 243, 243);
+	padding: 5px;
+}
+
+p.code {
+	font: 12pt Courier New;
+	margin-left: 20px;
+}
+
+pre.example {
+	margin-top: 0px;
+}
+
+.segGray {
+	color: rgb(87, 87, 87);
+}
+
+.segSky {
+	color: rgb(84, 141, 212);
+}
+
+.segBlue {
+	color: rgb(37, 126, 156);
+}
+
+.segPurple {
+	color: rgb(129, 38, 192);
+}
+
+.segBrown {
+	color: rgb(191, 159, 62);
+}
+
+.segMetal {
+	color: rgb(92, 112, 133);
+}
+
+.segGold {
+	color: rgb(129, 116, 24);
+}
+
+.segSeagreen {
+	color: rgb(50, 189, 47);
+}
+
+.segGreen {
+	color: rgb(29, 105, 20);
+}
+
+.segRed {
+	color: rgb(244, 64, 11);
+}
+
+.segRust {
+	color: rgb(173, 35, 35);
+}
+
+.segPink {
+	color: rgb(168, 1, 123);
+}
+
+.segRose {
+	color: rgb(253, 81, 98);
+}
+
+.segNavy {
+	color: rgb(19, 1, 184);
+}
+
+.segOrange {
+	color: rgb(227, 112, 16);
+}
+
+.segSilver {
+	color: rgb(180, 180, 180);
+}
+
+div.navigationPane {
+	text-align: center;
+	margin-top: 2em;
+	font: 0.833em Arial;
+}
+
+div.navigationPane img {
+	vertical-align: middle;
+}
+
+table.morphologyTable {
+	width: 100%;
+	border-top: 1px solid black;
+}
+
+table.morphologyTable td {
+	font: 0.833em Arial;
+	border-bottom: 1px dashed rgb(180, 180, 180);
+	height: 2em;
+	line-height: 1.6em;
+	text-align: center;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+table.morphologyTable tr.head td {
+	font-weight: bold;
+	background: rgb(244, 255, 229);
+	border-bottom: 1px solid black;
+}
+
+table.morphologyTable td.head3 {
+	text-align: right;
+}
+
+table.morphologyTable td.col3 {
+	text-align: right;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+table.morphologyTable td.ic {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	white-space: nowrap;
+}
+
+table.morphologyTable td.ic img.sec {
+	margin-bottom: 47px;
+	margin-left: 2px;
+}
+
+table.morphologyTable td.ic img.num {
+	margin-bottom: 47px;
+	margin-right: 2px;
+}
+
+table.morphologyTable td.ic img.saj {
+	margin-bottom: 52px;
+	margin-right: 2px;
+}
+
+table.morphologyTable td.ic a img {
+	border: 1px solid white;
+	padding: 0.5em;
+}
+
+table.morphologyTable td.ic a:hover img {
+	border: 1px solid blue;
+	background: rgb(234, 245, 255);
+}
+
+table.morphologyTable div.arabicGrammar {
+	font-family: "Traditional Arabic", Scheherazade, "Times New Roman";
+	color: rgb(50, 150, 50);
+	font-size: 1.4em;
+	font-weight: bold;
+	margin-top: 0.4em;
+	direction: rtl;
+}
+
+i.ab {
+	color: rgb(0, 0, 200);
+	font-family: Arial;
+}
+
+span.at {
+	font-family: "Traditional Arabic", Scheherazade, "Times New Roman";
+	color: rgb(50, 150, 50);
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+span.an {
+	font-family: "Traditional Arabic", Scheherazade, "Times New Roman";
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+table.tokenTable {
+	font: 0.833em Arial;
+	line-height: 1.6em;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2.5em;
+	text-align: center;
+}
+
+div.graph {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+span.location {
+	color: rgb(120, 120, 120);
+}
+
+span.phonetic {
+	color: rgb(72, 134, 208);
+}
+
+span.reference,a.reference {
+	color: rgb(180, 180, 180);
+}
+
+div.graph a {
+	position: relative;
+	display: block;
+	float: left;
+}
+
+div.graph a span {
+	display: none;
+}
+
+div.graph a:hover {
+	border: 1px solid blue;
+}
+
+div.graph a:hover span {
+	opacity: .09;
+	filter: alpha(opacity =         9);
+	background: rgb(0, 123, 234);
+	display: block;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+}
+
+p.verseImage {
+	text-align: center;
+}
+
+div#flashTitle {
+	border-top: 1px solid black;
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2em;
+	background: rgb(244, 255, 229);
+	text-align: center;
+	line-height: 1.6em;
+	font-weight: bold;
+}
+
+div#flashTitle a {
+	font-size: 0.833em;
+}
+
+div#flashPlayer {
+	border-top: 1px solid black;
+	border-bottom: 1px solid rgb(200, 200, 200);
+	width: 350px;
+	margin: auto;
+}
+
+p.inlineToken {
+	text-align: center;
+	font: 0.833em Arial;
+	line-height: 1.6em;
+	margin-bottom: 0;
+}
+
+p.inlineToken a.tokenLink img {
+	border: 1px solid white;
+	padding: 0.5em;
+	margin-top: 0.5em;
+}
+
+p.inlineToken a.tokenLink:hover img {
+	border: 1px solid blue;
+	background: rgb(234, 245, 255);
+}
+
+p.subtitle {
+	font-size: 0.8333em;
+	font-style: italic;
+	color: rgb(100, 100, 100);
+}
+
+table.conceptTable {
+	width: 100%;
+}
+
+table.conceptTable td.documentation {
+	vertical-align: top;
+	text-align: left;
+}
+
+table.conceptTable td.side {
+	vertical-align: top;
+	padding-left: 1.5em;
+}
+
+table.infoBox {
+	border: 1px solid rgb(150, 150, 150);
+}
+
+table.infoBox td {
+	font: 0.8333em Arial;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	vertical-align: top;
+}
+
+table.infoBox td.title {
+	text-align: center;
+	font-weight: bold;
+	color: rgb(100, 100, 100);
+}
+
+table.infoBox td.name {
+	padding-bottom: 6px;
+	font: 1.25em Tahoma;
+	text-align: center;
+	color: rgb(54, 95, 145);
+}
+
+table.infoBox td.arabic {
+	padding-top: 6px;
+	font: 2em Times New Roman;
+	background: rgb(200, 255, 200);
+	color: rgb(50, 150, 50);
+	text-align: center;
+}
+
+table.infoBox td.type {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	font-size: 1.2em;
+	background: rgb(200, 255, 200);
+	color: rgb(50, 150, 50);
+	text-align: center;
+}
+
+table.infoBox td.property {
+	font-weight: bold;
+}
+
+table.infoBox span,table.infoBox a {
+	white-space: nowrap;
+}
+
+table.infoBox span.phonetic {
+	color: rgb(72, 134, 208);
+}
+
+table.hierarchyTable td {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+table.imageBox {
+	border: 1px solid rgb(150, 150, 150);
+}
+
+table.imageBox td.c1 {
+	padding-top: 7px;
+	padding-left: 7px;
+	padding-right: 7px;
+}
+
+table.imageBox td.c2 {
+	font-size: 0.8333em;
+	padding: 7px;
+}
+
+table.commentTable {
+	font: 0.833em Arial;
+}
+
+table.commentTable td {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	vertical-align: top;
+}
+
+table.commentTable td.commentText,table.commentTable td.commentLabel {
+	padding-right: 0.8em;
+	padding-top: 0.8em;
+}
+
+table.commentTable td.commentLabel {
+	padding-left: 2em;
+	font-weight: bold;
+	text-align: right;
+}
+
+table.commentTable td.commentButton {
+	padding: 0;
+}
+
+.commentBox {
+	width: 500px;
+	font: 10pt Arial;
+}
+
+table.commentTable span.error {
+	font-style: italic;
+	color: red;
+}
+
+p#postComment {
+	font-style: italic;
+}
+
+table.postedCommentTable {
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+table.postedCommentTable td {
+	vertical-align: top;
+	font-size: 0.8333em;
+	padding-bottom: 1.5em;
+}
+
+table.postedCommentTable td.c1 {
+	width: 60px;
+}
+
+p.postedName {
+	color: rgb(71, 108, 184);
+	font-weight: bold;
+	margin: 0;
+}
+
+p.postedDate {
+	color: rgb(100, 100, 100);
+	margin: 0;
+}
+
+p.postedText {
+	margin-top: 0.5em;
+	margin-bottom: 0;
+}
+
+table.selectChapter {
+	font: 0.833em Arial;
+	margin: 0;
+}
+
+table.selectChapter td {
+	padding-bottom: 0.3em;
+}
+
+select#verseList {
+	width: 120px;
+}
+
+table.pageTemplate td.menuContainer {
+	border-top: 3px solid rgb(98, 121, 47);
+	vertical-align: top;
+	background: rgb(62, 58, 55);
+}
+
+table.menu {
+	width: 100%;
+}
+
+table.menu td.level1 a:hover {
+	text-decoration: none;
+}
+
+table.menu td.level1 {
+	border-bottom: 1px dotted black;
+}
+
+table.menu td.selected {
+	background: rgb(39, 37, 34);
+}
+
+table.menu td.hideBorder {
+	border-bottom: none;
+}
+
+table.menu td.lastMenuItem {
+	border-bottom: 1px dotted black;
+	padding-bottom: 15px;
+}
+
+table.menu td.level1 a {
+	color: rgb(242, 242, 242);
+	display: block;
+	padding: 7px;
+}
+
+table.menu td.level1 a:hover {
+	background: rgb(100, 100, 100);
+}
+
+table.menu td.level2 {
+	background: rgb(39, 37, 34);
+	color: rgb(217, 217, 217);
+	padding-left: 7px;
+	padding-top: 10px;
+}
+
+table.menu td.level3 {
+	background: rgb(39, 37, 34);
+	padding-left: 13px;
+}
+
+table.menu td.level3 a {
+	color: rgb(166, 166, 166);
+}
+
+table.menu td.level4 {
+	background: rgb(39, 37, 34);
+	padding-left: 10px;
+}
+
+table.menu td.level4 a {
+	color: rgb(166, 166, 166);
+}
+
+table.menu td.firstSubItem {
+	padding-top: 0;
+}
+
+table.taf {
+	width: 100%;
+	border-top: 1px dashed rgb(180, 180, 180);
+}
+
+table.taf td {
+	font-size: 0.8333em;
+	text-align: left;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border-bottom: 1px dashed rgb(180, 180, 180);
+}
+
+table.taf td.c1 {
+	width: 25%;
+	padding-left: 5px;
+}
+
+table.taf td.c1 span.l {
+	color: rgb(100, 100, 100);
+}
+
+table.taf td.c2 {
+	width: 30%;
+	padding-left: 5px;
+}
+
+table.taf td.c3 {
+	text-align: right;
+	font-family: "Traditional Arabic", Scheherazade, "Times New Roman";
+	font-size: 1.2em;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+table.taf td.c3 span.auu {
+	color: red;
+	font-weight: bold;
+}
