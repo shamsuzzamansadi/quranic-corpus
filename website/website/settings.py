@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-# ('Your Name', 'your_email@example.com'),
+  ('Rafid K. Abdullah', 'rafidka@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -19,7 +19,25 @@ DATABASES = {
     'HOST': 'localhost',
     'PORT': '3306',
   }
+
+  # Couldn't really get this to help me create the morphology table in memory, so
+  # commenting it out for now.
+  #'memory_db': {
+  #  'ENGINE': 'django.db.backends.mysql',
+  #  'NAME': 'QuranicArabicCorpus',
+  #  'USER': 'q.a.corpus-admin',
+  #  'PASSWORD': 'database',
+  #  'HOST': 'localhost',
+  #  'PORT': '3306',
+  #  'OPTIONS': {'init_command': 'SET storage_engine=MEMORY'}
+  #}
 }
+
+# Couldn't really get this to help me create the morphology table in memory, so
+# commenting it out for now.
+#DATABASE_ROUTERS = {
+#  'website.routers.MorphologyRouter'
+#}
 
 # Base path of the project
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -124,7 +142,9 @@ INSTALLED_APPS = (
   'django.contrib.staticfiles',
   'django.contrib.admin',
   'django.contrib.humanize',
-  'registration'
+  'registration',
+  'morphology',
+  'setup'
   # Uncomment the next line to enable admin documentation:
   # 'django.contrib.admindocs',
 )

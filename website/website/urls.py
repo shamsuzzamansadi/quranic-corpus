@@ -1,6 +1,4 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 
 admin.autodiscover()
@@ -18,5 +16,11 @@ urlpatterns = patterns(
   url(r'^admin/', include(admin.site.urls)),
 
   # Registration
-  url(r'^accounts/', include('registration.backends.default.urls'))
+  url(r'^accounts/', include('registration.backends.default.urls')),
+
+  # Morphology
+  url(r'^morphology/', include('morphology.urls')),
+
+  # Morphology
+  url(r'^setup/', include('setup.urls'))
 )
