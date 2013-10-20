@@ -30,8 +30,6 @@ def split_morphology_location_fields():
     temp_row = QuranSegment()
     for row in csv_input_file:
       temp_row.read_from_csv_row(row)
-      temp_row.strip_location_braces()
-      temp_row.split_location()
       temp_row.write_to_csv(csv_output_file)
 
 
@@ -53,7 +51,8 @@ into table morphology_quransegment
 fields terminated by '\\t'
 enclosed by '"'
 lines terminated by '\\n'
-(location, chapter, verse, word, segment, form, tag, features);  """ % MORPHOLOGY_V5_PATH)
+(segment_id, location_string, chapter_no, verse_no, token_no,
+ segment_no, form, tag, features);  """ % MORPHOLOGY_V5_PATH)
     cursor.close()
     db.commit()
     db.close()
