@@ -10,6 +10,12 @@
   <title>The Quranic Arabic Corpus - Word by Word Grammar, Syntax and Morphology
     of the Holy Quran</title>
   <link href="{%  static 'css/main.css' %}" type="text/css" rel="stylesheet">
+  <script type="application/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
+  <script type="application/javascript" src="{% static 'js/string.js' %}"></script>
+
+  <!-- Additional scripts -->
+  {% block scripts %}
+  {% endblock %}
 </head>
 <body>
 <!-- Toolbar at the top of the page. -->
@@ -51,7 +57,10 @@
       <a href=""><img src="{% static 'img/quran.jpeg' %}"></a>
     </td>
     <td class="title" colspan="2">
-      <h2>The Quranic Arabic Corpus</h2>
+      <h2>
+        {% block title %}
+        {% endblock %}
+      </h2>
     </td>
   </tr>
   <tr>
