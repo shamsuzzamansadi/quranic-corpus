@@ -1,11 +1,12 @@
 import json
 from django.http import HttpResponse
 from django.core import serializers
+from django.shortcuts import render
 from models import QuranSegment
 
 
 def index(request):
-  return HttpResponse("Hello, world. You're at the morphology index.")
+  return render(request, 'morphology/index.html', {})
 
 
 def quran_segment_by_id(request, segment_id):

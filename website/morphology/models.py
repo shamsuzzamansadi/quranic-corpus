@@ -46,7 +46,6 @@ class QuranSegment(models.Model):
      self.form,
      self.tag,
      self.features] = row
-    test = QuranSegment.get_id_from_location(self.location_string)
     self.segment_id = \
       QuranSegment.get_id_from_location(self.location_string)
     [self.chapter_no, self.verse_no, self.token_no, self.segment_no] = \

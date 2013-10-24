@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Word by Word Syntax and Morphology{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="{% static 'js/quran-info.js' %}">
+  </script>
+  <script type="text/javascript" src="{% static 'morphology/js/index.js' %}">
+  </script>
+{% endblock %}
+
+{% block content %}
+  <p class="first">
+    Welcome to the <a href="/">Quranic Arabic Corpus</a>, an annotated
+    linguistic resource which shows the Arabic grammar,
+    syntax and morphology for each word in the Holy Quran. Click on an
+    Arabic word
+    below to see details of the word's grammar, or to suggest a correction.
+  </p>
+
+  <!-- Chapter and verse selectors -->
+  <table border="0">
+    <tbody>
+    <tr>
+      <td>
+        <select id="chapterList"></select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <select id="verseList"></select>&nbsp;
+        <button type="button">Go</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h3 id="chapterName" class="chapterName"></h3>
+{% endblock %}
