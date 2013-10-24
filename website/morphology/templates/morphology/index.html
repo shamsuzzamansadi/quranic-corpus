@@ -30,11 +30,29 @@
     <tr>
       <td>
         <select id="verseList"></select>&nbsp;
-        <button type="button">Go</button>
+        <button id="loadMorphology" type="button">Go</button>
       </td>
     </tr>
     </tbody>
   </table>
 
+  <!-- Basmala -->
+  <div id="basmala" class="basmala" style="display: none;">
+    <img src="{% static "img/basmala.png" %}">
+  </div>
+
+  <!-- Chapter Title -->
   <h3 id="chapterName" class="chapterName"></h3>
+
+  <!-- Morphology -->
+  <table class="morphologyTable" style="display: none;"
+         border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr class="head">
+      <td>Translation</td>
+      <td>Arabic word</td>
+      <td class="head3">Syntax and morphology</td>
+    </tr>
+    </tbody>
+  </table>
 {% endblock %}
