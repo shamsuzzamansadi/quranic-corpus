@@ -1,58 +1,47 @@
-$(function() {
+(function() {
   'use strict';
 
-  var loadVerses = function() {
-    var chapterIndex = $('#chapterList').val();
-    var verseCount = QuranInfo.verseCounts[chapterIndex];
-    var verseList = $('#verseList');
-    var verseSelector;
-    var i;
+  var morphologyModule = angular.module('morphologyModule', ['ngResource']);
 
-    verseList.html('');
-    for (i = 0; i < verseCount; i += 1) {
-      verseSelector = 'Verse {0}:{1}'.format(
-          i + 1,
-          verseCount);
-      $('<option/>').attr('value', i).text(verseSelector).appendTo(verseList);
-    }
-  };
+  morphologyModule.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+  });
 
-  var loadChapters = function() {
-    var i, chapterSelector, chapterList;
-    chapterList = $('#chapterList');
-    chapterList.html('');
-    for (i = 0; i < QuranInfo.chapterCount; i += 1) {
-      chapterSelector = 'Chapter ({0}) {1} ({2})'.format(
-          i + 1,
-          QuranInfo.chapterNamesTransliterated[i],
-          QuranInfo.chapterNamesInEnglish[i]);
-      $('<option/>').attr('value', i + 1)
-          .text(chapterSelector)
-          .appendTo(chapterList);
-    }
+  morphologyModule.factory('MorphologyService', function($resource) {
+    return $resource('/morphology/:chapter/:verse/segments');
+  });
 
-    chapterList.change(function() {
-      loadVerses();
-    });
-  };
+  morphologyModule.controller('Morphology', ['$scope', 'MorphologyService',
+    function($scope, MorphologyService) {
+      $scope.chapters = QuranInfo.chapters;
+      $scope.selectedChapter = QuranInfo.chapters[0];
 
-  var loadMorphology = function() {
-    var chapterList = $('#chapterList');
-    var chapterIndex = chapterList.val();
-    var chapterName = chapterList.find('option:selected').text();
-    $('#chapterName').text(chapterName);
-    if (chapterIndex === '9') {
-      // We don't show the Basmala if the selected sūrat is l-tawbah.
-      $('#basmala').hide();
-    }
-    else {
-      $('#basmala').show();
-    }
-    $('#morphologyTable').show();
-  };
+      $scope.verses = _.range(1, $scope.selectedChapter.verseCount + 1);
+      $scope.selectedVerse = 1;
 
-  $('#loadMorphology').click(loadMorphology);
+      /**
+       * Called when the selected chapter is changed.
+       */
+      $scope.chapterSelected = function() {
+        $scope.verses = _.range(1, $scope.selectedChapter.verseCount + 1);
+        $scope.selectedVerse = 1;
+      };
 
-  loadChapters();
-  loadVerses();
-});
+      /**
+       * Called when the selected verse is changed.
+       */
+      $scope.verseSelected = function() {
+      };
+
+      /**
+       * Loads the morphology of the selected chapter and verse.
+       */
+      $scope.loadMorphology = function() {
+        $scope.morphologies = MorphologyService.query({
+          chapter: $scope.selectedChapter.index,
+          verse: $scope.selectedVerse
+        });
+      };
+    }]);
+}());

@@ -11,48 +11,69 @@
 {% endblock %}
 
 {% block content %}
-  <p class="first">
-    Welcome to the <a href="/">Quranic Arabic Corpus</a>, an annotated
-    linguistic resource which shows the Arabic grammar,
-    syntax and morphology for each word in the Holy Quran. Click on an
-    Arabic word
-    below to see details of the word's grammar, or to suggest a correction.
-  </p>
+  <div ng-app="morphologyModule" ng-controller="Morphology">
+    <p class="first">
+      Welcome to the <a href="/">Quranic Arabic Corpus</a>, an annotated
+      linguistic resource which shows the Arabic grammar,
+      syntax and morphology for each word in the Holy Quran. Click on an
+      Arabic word
+      below to see details of the word's grammar, or to suggest a correction.
+    </p>
 
-  <!-- Chapter and verse selectors -->
-  <table border="0">
-    <tbody>
-    <tr>
-      <td>
-        <select id="chapterList"></select>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <select id="verseList"></select>&nbsp;
-        <button id="loadMorphology" type="button">Go</button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+    <!-- Chapter and verse selectors -->
+    <table border="0">
+      <tbody>
+      <tr>
+        <td>
+          <select id="chapterTitles"
+                  ng-model="selectedChapter"
+                  ng-options="c.fullTitle for c in chapters"
+                  ng-click="chapterSelected()">
+          </select>
+        </td>
+        <td>
+          <select id="verses"
+                  ng-model="selectedVerse"
+                  ng-options="verse for verse in verses"
+                  ng-click="verseSelected()">
+          </select>
+        </td>
+        <td>
+          <button id="loadMorphology" type="button" ng-click="loadMorphology()">Go</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-  <!-- Basmala -->
-  <div id="basmala" class="basmala" style="display: none;">
-    <img src="{% static "img/basmala.png" %}">
+    <!-- Basmala -->
+    <div id="basmala" class="basmala" style="display: none;">
+      <img src="{% static "img/basmala.png" %}">
+    </div>
+
+    <!-- Chapter Title -->
+    <h3 id="chapterName" class="chapterName"></h3>
+
+    <!-- Morphology -->
+    <table class="morphologyTable" style="" border="0">
+      <tbody>
+      <tr class="head">
+        <th>Translation</th>
+        <th>Arabic word</th>
+        <th class="head3">Syntax and morphology</th>
+      </tr>
+      <tr ng-repeat="morphology in morphologies">
+        <td>[[ morphology.location_string ]]</td>
+        <td>[[ morphology.arabicWord ]]</td>
+        <td>[[ morphology.syntaxAndMorphology ]]</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
+{% endblock %}
 
-  <!-- Chapter Title -->
-  <h3 id="chapterName" class="chapterName"></h3>
-
-  <!-- Morphology -->
-  <table class="morphologyTable" style="display: none;"
-         border="0" cellpadding="0" cellspacing="0">
-    <tbody>
-    <tr class="head">
-      <td>Translation</td>
-      <td>Arabic word</td>
-      <td class="head3">Syntax and morphology</td>
-    </tr>
-    </tbody>
-  </table>
+{% block footer_scripts %}
+  <script type="text/javascript" src="{% static 'js/quran-info.js' %}">
+  </script>
+  <script type="text/javascript" src="{% static 'morphology/js/index.js' %}">
+  </script>
 {% endblock %}

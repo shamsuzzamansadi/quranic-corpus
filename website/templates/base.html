@@ -1,25 +1,23 @@
 {% load static %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- saved from url=(0024)http://corpus.quran.com/ -->
+<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <title>The Quranic Arabic Corpus - Word by Word Grammar, Syntax and Morphology
     of the Holy Quran</title>
-  <link href="{%  static 'css/main.css' %}" type="text/css" rel="stylesheet">
-  <script type="application/javascript" src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
-  <script type="application/javascript" src="{% static 'js/string.js' %}"></script>
+  <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet">
+  <script src="{% static 'js/underscore-min.js' %}"></script>
+  <script src="{% static 'js/string.js' %}"></script>
 
   <!-- Additional scripts -->
-  {% block scripts %}
+  {% block header_scripts %}
   {% endblock %}
 </head>
 <body>
 <!-- Toolbar at the top of the page. -->
-<table border="0" cellpadding="0" cellspacing="0" class="toolbar">
+<table border="0" class="toolbar">
   <tbody>
   <tr>
     <td class="toolbarLeft">&nbsp;</td>
@@ -31,13 +29,14 @@
       <a href="http://android.quran.com/">Android</a> |
       <a href="http://beta.quran.com/">
         <strong>New&nbsp;:</strong>&nbsp;beta.quran.com
-        <img src="{% static 'img/labs.png' %}" style="position: absolute; top: -6px; right: -3px;">
+        <img src="{% static 'img/labs.png' %}"
+             style="position: absolute; top: -6px; right: -3px;">
       </a>
     </td>
   </tr>
   </tbody>
 </table>
-<table border="0" cellpadding="0" cellspacing="0" class="pageTemplate">
+<table border="0" class="pageTemplate">
   <tbody>
   <tr>
     <td class="logo1">
@@ -48,7 +47,8 @@
     </td>
     <td class="searchBox">
       <a href="">Search</a>
-      <label for="searchTextBox"></label><input type="text" size="20" id="searchTextBox">
+      <label for="searchTextBox"></label><input type="text" size="20"
+                                                id="searchTextBox">
       <input type="button" value="Go">
     </td>
   </tr>
@@ -65,7 +65,7 @@
   </tr>
   <tr>
     <td class="menuContainer">
-      <table cellpadding="0" cellspacing="0" border="0" class="menu">
+      <table border="0" class="menu">
         <tbody>
         <tr>
           <td class="level1"><a href="">Word by Word</a></td>
@@ -128,5 +128,25 @@
   </tr>
   </tbody>
 </table>
+<!-- AngularJS -->
+<!--
+ Commenting the CDN out because it is version 1.0.8 while angular.min.js is
+ version 1.2.0.
+-->
+
+<!--
+<script type="application/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js">
+</script>
+-->
+<!-- TODO: Find a CDN to load angular-resources from to reduce the load on our server. -->
+<script type="application/javascript"
+        src="{% static 'js/angular.js' %}">
+</script>
+<script type="application/javascript"
+        src="{% static 'js/angular-resource.js' %}">
+</script>
+{% block footer_scripts %}
+{% endblock %}
 </body>
 </html>

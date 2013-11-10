@@ -1,6 +1,11 @@
-var QuranInfo = (function() {
+var QuranInfo = (function () {
   'use strict';
-  var chapterCount, verseCounts, chapterNamesTransliterated, chapterNamesInEnglish;
+  var i;
+  var chapters;
+  var chapterCount;
+  var verseCounts;
+  var chapterNamesTransliterated;
+  var chapterNamesInEnglish;
 
   chapterCount = 114;
 
@@ -244,7 +249,28 @@ var QuranInfo = (function() {
     'The Daybreak',
     'Mankind'];
 
+  chapters = [];
+  for (i = 0; i < chapterCount; i += 1) {
+    var chapter = {
+      index: i+1,
+      verseCount: verseCounts[i],
+      transliteratedName: chapterNamesTransliterated[i],
+      englishName: chapterNamesInEnglish[i]
+    };
+    // NOTE: I am adding this field because I couldn't find a way to specify
+    // custom text to ng-options, thus I am building the full title here. I
+    // think it is worth trying to see if it is possible to use custom text
+    // with ng-options, because I can't think of any use of this variable
+    // otherwise.
+    chapter.fullTitle = 'Chapter ({0}) {1} ({2})'.format(
+        chapter.index,
+        chapter.englishName,
+        chapter.transliteratedName);
+    chapters.push(chapter);
+  }
+
   return {
+    chapters: chapters,
     chapterCount: chapterCount,
     verseCounts: verseCounts,
     chapterNamesInEnglish: chapterNamesInEnglish,
