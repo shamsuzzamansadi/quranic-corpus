@@ -8,12 +8,12 @@
     $interpolateProvider.endSymbol(']]');
   });
 
-  morphologyModule.factory('MorphologyService', function($resource) {
-    return $resource('/morphology/:chapter/:verse/segments');
+  morphologyModule.factory('TokensService', function($resource) {
+    return $resource('/morphology/:chapter/:verse/tokens');
   });
 
-  morphologyModule.controller('Morphology', ['$scope', 'MorphologyService',
-    function($scope, MorphologyService) {
+  morphologyModule.controller('Morphology', ['$scope', 'TokensService',
+    function($scope, TokensService) {
       $scope.chapters = QuranInfo.chapters;
       $scope.selectedChapter = QuranInfo.chapters[0];
 
@@ -35,10 +35,10 @@
       };
 
       /**
-       * Loads the morphology of the selected chapter and verse.
+       * Loads the tokens of the selected chapter and verse.
        */
-      $scope.loadMorphology = function() {
-        $scope.morphologies = MorphologyService.query({
+      $scope.loadTokens = function() {
+        $scope.tokens = TokensService.query({
           chapter: $scope.selectedChapter.index,
           verse: $scope.selectedVerse
         });

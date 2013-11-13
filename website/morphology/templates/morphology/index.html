@@ -39,7 +39,7 @@
           </select>
         </td>
         <td>
-          <button id="loadMorphology" type="button" ng-click="loadMorphology()">Go</button>
+          <button id="loadTokens" type="button" ng-click="loadTokens()">Go</button>
         </td>
       </tr>
       </tbody>
@@ -61,10 +61,16 @@
         <th>Arabic word</th>
         <th class="head3">Syntax and morphology</th>
       </tr>
-      <tr ng-repeat="morphology in morphologies">
-        <td>[[ morphology.location_string ]]</td>
-        <td>[[ morphology.arabicWord ]]</td>
-        <td>[[ morphology.syntaxAndMorphology ]]</td>
+      <tr ng-repeat="token in tokens">
+        <td>
+          <span class="location">
+            ([[token.chapter_no]]:[[token.verse_no]]:[[token.token_no]])
+          </span>
+          <br/>
+          [[token.translation]]
+        </td>
+        <td><img src="http://corpus.quran.com/wordimage?id=[[ token.token_id]]" /></td>
+        <td>[[]]</td>
       </tr>
       </tbody>
     </table>

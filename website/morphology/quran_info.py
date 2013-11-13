@@ -256,6 +256,11 @@ def get_verse_count(chapter_index):
   return __verse_counts[chapter_index]
 
 
+# TODO: Implement this function
+def get_token_count(chapter_no, verse_no):
+  raise NotImplementedError()
+
+
 def get_chapter_name_in_english(chapter_index):
   return __chapter_names_in_english[chapter_index]
 
