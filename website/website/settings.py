@@ -144,7 +144,8 @@ INSTALLED_APPS = (
   'django.contrib.humanize',
   'registration',
   'morphology',
-  'setup'
+  'setup',
+  'encoding'
   # Uncomment the next line to enable admin documentation:
   # 'django.contrib.admindocs',
 )

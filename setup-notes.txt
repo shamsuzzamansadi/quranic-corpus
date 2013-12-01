@@ -1,0 +1,10 @@
+Required Django frameworks
+--------------------------
+1. Django
+
+pip install django
+
+2. Django REST Framework
+
+pip install djangorestframework
+
