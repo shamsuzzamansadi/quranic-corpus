@@ -7,85 +7,84 @@
 #
 
 # TODO: Use the constants from arabic_alphabet module instead of hard-coding.
+# NOTE: I gradually deviated from using ALA-LC. For example, the letter Ya
+# in ALA-LC is transcribed as "y", which is less intuitive than "ī". For
+# example, in ALA-LC الرحيم is transcribed is "al-rahymi"; Compare that with
+# "al-raḥīmi".
 
 from StringIO import StringIO
 from encoding.arabic_text import ArabicText
+import arabic_alphabet
 
 __unicode_to_phonetic_map = {
-  unichr(0x0621): '\'',  # Hamza
-  unichr(0x0622): unichr(0x0100),  # Alif with Madda ABOVE
-  unichr(0x0623): '\'a',  # Alif with Hamza ABOVE
-  unichr(0x0624): '\'u',  # Waw with Hamza ABOVE
-  unichr(0x0625): '\'i',  # Alif with Hamza BELOW
-  unichr(0x0626): 'i\'',  # Ya with Hamza ABOVE
+  arabic_alphabet.HAMZA: u'\'',
+  arabic_alphabet.ALIF_WITH_MADDA_ABOVE: unichr(0x0100),
+  arabic_alphabet.ALIF_WITH_HAMZA_ABOVE: u'\'a',
+  arabic_alphabet.WAW_WITH_HAMZA_ABOVE: u'\'u',
+  arabic_alphabet.ALIF_WITH_HAMZA_BELOW: u'\'i',
+  arabic_alphabet.YA_WITH_HAMZA_ABOVE: u'i\'',  # Ya with Hamza ABOVE
   # NOTE: Alif doesn't seem to have transcription in ALA-LC, so I am using the
   # same one for Alif with Madda.
-  unichr(0x0627): unichr(0x0101),  # Alif
-  unichr(0x0628): 'b',  # Ba
-  unichr(0x0629): unichr(0x1e97),  # Ta Marbuta
-  unichr(0x062A): 't',  # Ta
-  unichr(0x062B): unichr(0x1e6f),  # Tha
-  unichr(0x062C): unichr(0x01e7),  # Jeem
-  unichr(0x062D): unichr(0x1e25),  # Ha
-  unichr(0x062E): unichr(0x1e96),  # Kha
-  unichr(0x062F): 'd',  # Dal
-  unichr(0x0630): unichr(0x1e0f),  # Thal
-  unichr(0x0631): 'r',  # Ra
-  unichr(0x0632): 'z',  # Zain
-  unichr(0x0633): 's',  # Seen
-  unichr(0x0634): unichr(0x0161),  # Sheen
-  unichr(0x0635): unichr(0x1e63),  # Sad
-  unichr(0x0636): unichr(0x1e0d),  # Dad
-  unichr(0x0637): unichr(0x1e6d),  # Tah
-  unichr(0x0638): unichr(0x1e93),  # Zah
-  unichr(0x0639): unichr(0x02bf),  # Ain
-  unichr(0x063A): unichr(0x0121),  # Ghain
+  arabic_alphabet.ALIF: unichr(0x0101),
+  arabic_alphabet.BA: u'b',  # Ba
+  arabic_alphabet.TA_MARBUTA: unichr(0x1e97),
+  arabic_alphabet.TA: u't',
+  arabic_alphabet.THA: unichr(0x1e6f),
+  arabic_alphabet.JEEM: unichr(0x01e7),
+  arabic_alphabet.HHA: unichr(0x1e25),
+  arabic_alphabet.KHA: unichr(0x1e96),
+  arabic_alphabet.DAL: u'd',
+  arabic_alphabet.THAL: unichr(0x1e0f),
+  arabic_alphabet.RA: u'r',
+  arabic_alphabet.ZAY: u'z',
+  arabic_alphabet.SEEN: u's',
+  arabic_alphabet.SHEEN: unichr(0x0161),
+  arabic_alphabet.SAD: unichr(0x1e63),
+  arabic_alphabet.DAD: unichr(0x1e0d),
+  arabic_alphabet.TAH: unichr(0x1e6d),
+  arabic_alphabet.ZAH: unichr(0x1e93),
+  arabic_alphabet.AIN: unichr(0x02bf),
+  arabic_alphabet.GHAIN: unichr(0x0121),
   # Removing Tatweel in the transcription
-  unichr(0x0640): '',  # Tatweel
-  unichr(0x0641): 'f',  # Fa
-  unichr(0x0642): 'q',  # Qaf
-  unichr(0x0643): 'k',  # KAF
-  unichr(0x0644): 'l',  # LAM
-  unichr(0x0645): 'm',  # Meem
-  unichr(0x0646): 'n',  # Noon
-  unichr(0x0647): 'h',  # Ha
-  unichr(0x0648): 'w',  # WAW
-  unichr(0x0649): unichr(0x1ef3),  # Alif Maksura
-  unichr(0x064A): 'w',  # YEH
-  unichr(0x064B): 'an',  # Fathatan (Rafid)
-  unichr(0x064C): 'un',  # Dammatan (Rafid)
-  unichr(0x064D): 'in',  # Kasratan (Rafid)
-  unichr(0x064E): 'a',  # Fatha
-  unichr(0x064F): 'u',  # Damma
-  unichr(0x0650): 'i',  # Kasra
+  arabic_alphabet.TATWEEL: u'',
+  arabic_alphabet.FA: u'f',
+  arabic_alphabet.QAF: u'q',
+  arabic_alphabet.KAF: u'k',
+  arabic_alphabet.LAM: u'l',
+  arabic_alphabet.MEEM: u'm',
+  arabic_alphabet.NOON: u'n',
+  arabic_alphabet.HA: u'h',
+  arabic_alphabet.WAW: u'w',
+  arabic_alphabet.ALIF_MAKSURA: unichr(0x1ef3),
+  arabic_alphabet.YA: unichr(0x012b),
+  arabic_alphabet.FATHATAN: u'an',   # Rafid
+  arabic_alphabet.DAMMATAN: u'un',   # Rafid
+  arabic_alphabet.KASRATAN: u'in',   # Rafid
+  arabic_alphabet.FATHA: u'a',
+  arabic_alphabet.DAMMA: u'u',
+  arabic_alphabet.KASRA: u'i',
   # Shadda in ALA-LC is represented by doubling the letter.
-  #unichr(0x0651): unichr(),  # Shadda
+  #arabic_alphabet.SHADDA: unichr(),  # Shadda
   # Sukon in ALA-LC doesn't have a representation in ALA-LC.
-  unichr(0x0652): '',  # Sukun
+  arabic_alphabet.SUKUN: u'',  # Sukun
   # Alif Khanjariya
   unichr(0x0670): unichr(0x0101),  # Alif Khanjariya
   # TODO: Implement the transcription of Hamzat Al-Wasl
   #unichr(0x0671): unichr(),  # Alif with Hamzat Wasl
-  # Commenting out non-Arabic letters for now.
-  #unichr(0x067E): unichr(),  # PEH
-  #unichr(0x0686): unichr(),  # TCHEH
-  #unichr(0x06A4): unichr(),  # VEH
-  #unichr(0x06AF): unichr(),  # GAF
-  #unichr(0x0653): unichr(),  # Maddah (Extended Buckwalter)
   # The following letters don't have a representation in ALA-LC.
-  #unichr(0x0654): unichr(),  # HamzaAbove (Extended Buckwalter)
-  #unichr(0x06DC): unichr(),  # Small High Seen (Extended Buckwalter)
-  #unichr(0x06DF): unichr(),  # Small High Rounded Zero (Extended Buckwalter)
-  #unichr(0x06E0): unichr(),  # Small High Upright Rectangular Zero (Extended Buckwalter)
-  #unichr(0x06E2): unichr(),  # Small High Meem Isolated Form (Extended Buckwalter)
-  #unichr(0x06E3): unichr(),  # Small Low Seen (Extended Buckwalter)
-  #unichr(0x06E5): unichr(),  # Small Waw (Extended Buckwalter)
-  #unichr(0x06E6): unichr(),  # Small Ya (Extended Buckwalter)
-  #unichr(0x06E8): unichr(),  # Small High Noon (Extended Buckwalter)
-  #unichr(0x06EA): unichr(),  # Empty Centre Low Stop (Extended Buckwalter)
-  #unichr(0x06EB): unichr(),  # Empty Centre High Stop (Extended Buckwalter)
-  #unichr(0x06EC): unichr(),  # Rounded High Stop With Filled Centre (Extended Buckwalter)
-  #unichr(0x06ED): unichr(),  # Small Low Meem (Extended Buckwalter)
+  arabic_alphabet.HAMZAABOVE: u'',
+  arabic_alphabet.SMALL_HIGH_SEEN: u'',
+  arabic_alphabet.SMALL_HIGH_ROUNDED_ZERO: u'',
+  arabic_alphabet.SMALL_HIGH_UPRIGHT_RECTANGULAR_ZERO_: u'',
+  arabic_alphabet.SMALL_HIGH_MEEM_ISOLATED_FORM: u'',
+  arabic_alphabet.SMALL_LOW_SEEN: u'',
+  arabic_alphabet.SMALL_WAW: u'',
+  arabic_alphabet.SMALL_YA: u'',
+  arabic_alphabet.SMALL_HIGH_NOON: u'',
+  arabic_alphabet.EMPTY_CENTRE_LOW_STOP: u'',
+  arabic_alphabet.EMPTY_CENTRE_HIGH_STOP: u'',
+  arabic_alphabet.ROUNDED_HIGH_STOP_WITH_FILLED_CENTRE: u'',
+  arabic_alphabet.SMALL_LOW_MEEM: u''
 }
 
 
@@ -120,7 +119,7 @@ def unicode_to_phonetic(string):
       continue
 
     # Handle Ta Marbuta
-    if arabic_text.is_al(position):
+    if arabic_text.is_al(position) and arabic_text.is_word_start(position):
       string_buffer.write(u'al-')
       # Skip the next letter (Lam) because we already processed it.
       pos_iter.next()
@@ -136,6 +135,24 @@ def unicode_to_phonetic(string):
         # Alif with Madda at the beginning of a word is replaced with
         # `ā
         string_buffer.write('\'' + unichr(0x0101))
+      continue
+
+    if arabic_text.is_fatha_followed_by_alif(position):
+      # Treat like an Alif.
+      string_buffer.write(__unicode_to_phonetic_map[arabic_alphabet.ALIF])
+      pos_iter.next()
+      continue
+
+    if arabic_text.is_kasra_followed_by_ya(position):
+      # Treat like a Ya
+      string_buffer.write(__unicode_to_phonetic_map[arabic_alphabet.YA])
+      pos_iter.next()
+      continue
+
+    if arabic_text.is_damma_followed_by_waw(position):
+      # Treat like a Waw
+      string_buffer.write(__unicode_to_phonetic_map[arabic_alphabet.WAW])
+      pos_iter.next()
       continue
 
     # Handle the rest

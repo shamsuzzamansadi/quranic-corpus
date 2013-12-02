@@ -19,7 +19,7 @@ class ArabicText(unicode):
 
     :return True or False
     """
-    return position == 0 or self.text[position] == ' '
+    return position == 0 or self.text[position - 1] == ' '
 
   def is_whitespace(self, position):
     return self.text[position] == ' '
@@ -38,6 +38,24 @@ class ArabicText(unicode):
   def is_ta_marbuta(self, position):
     return self.text[position] == arabic_alphabet.TA_MARBUTA
 
+  def is_alif(self, position):
+    """
+    Determines whether there is an Alif or one of its variants at the given
+    position.
+    For now, Alif, Alif with Wasla, and Alif Khanjariya are treated similarly.
+
+    :param position: The position of the character to check.
+
+    :return: True or False
+    """
+    # TODO: Alif with Wasla is pronounced differently based on whether
+    # it is connected with the previous word or not; if it is connected
+    # it is pronounced like an Alif, otherwise it is pronounced like
+    # an Alif with Hamza above.
+    return self.text[position] == arabic_alphabet.ALIF or \
+           self.text[position] == arabic_alphabet.ALIF_WITH_WASLA_ABOVE or \
+           self.text[position] == arabic_alphabet.ALIF_KHANJAREEYA
+
   def is_al(self, position):
     """
     Determines whether there is an Alif followed by Lam at the given position.
@@ -46,9 +64,24 @@ class ArabicText(unicode):
 
     :return True or False
     """
-    return position < len(self.text) - 1 and\
-           self.text[position] == arabic_alphabet.ALIF and\
-           self.text[position] == arabic_alphabet.LAM
+    return position < len(self.text) - 1 and \
+           self.is_alif(position) and \
+           self.text[position + 1] == arabic_alphabet.LAM
+
+  def is_fatha_followed_by_alif(self, position):
+    return position < len(self.text) - 1 and \
+           self.text[position] == arabic_alphabet.FATHA and \
+           self.is_alif(position + 1)
+
+  def is_kasra_followed_by_ya(self, position):
+    return position < len(self.text) - 1 and \
+           self.text[position] == arabic_alphabet.KASRA and \
+           self.text[position + 1] == arabic_alphabet.YA
+
+  def is_damma_followed_by_waw(self, position):
+    return position < len(self.text) - 1 and \
+           self.text[position] == arabic_alphabet.DAMMA and \
+           self.text[position + 1] == arabic_alphabet.WAW
 
   def is_alif_with_madda_above(self, position):
     return self.text[position] == arabic_alphabet.ALIF_WITH_MADDA_ABOVE
