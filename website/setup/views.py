@@ -31,7 +31,7 @@ into table morphology_qurantoken
 fields terminated by ','
 enclosed by '"'
 lines terminated by '\\n'
-(token_id, chapter_no, verse_no, token_no, translation);
+(token_id, chapter_no, verse_no, token_no, translation, buckwalter);
 """ % HOLY_QURAN_TOKENS_PATH)
     cursor.close()
     db.commit()

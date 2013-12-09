@@ -70,7 +70,7 @@ __unicode_to_buckwalter_map = {
 
 # Inverse the map above to create inverse mapping.
 __buckwalter_to_unicode_map = {}
-for (key, value) in __unicode_to_buckwalter_map:
+for (key, value) in __unicode_to_buckwalter_map.iteritems():
    __buckwalter_to_unicode_map[value] = key
 
 

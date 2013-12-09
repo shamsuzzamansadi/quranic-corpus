@@ -63,10 +63,12 @@
       </tr>
       <tr ng-repeat="token in tokens">
         <td>
-          <span class="location">
+          <div class="location">
             ([[token.chapter_no]]:[[token.verse_no]]:[[token.token_no]])
-          </span>
-          <br/>
+          </div>
+          <div class="phonetic">
+          [[token.phonetic]]
+          </div>
           [[token.translation]]
         </td>
         <td><img src="http://corpus.quran.com/wordimage?id=[[ token.token_id]]" /></td>

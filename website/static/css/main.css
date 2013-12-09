@@ -370,11 +370,11 @@ div.graph {
 	margin-right: auto;
 }
 
-span.location {
+div.location {
 	color: rgb(120, 120, 120);
 }
 
-span.phonetic {
+div.phonetic {
 	color: rgb(72, 134, 208);
 }
 

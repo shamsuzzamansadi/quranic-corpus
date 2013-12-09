@@ -1,4 +1,6 @@
 from django.db import models
+from encoding.buckwalter import buckwalter_to_unicode
+from encoding.phonetic import unicode_to_phonetic
 
 
 class QuranToken(models.Model):
@@ -7,7 +9,11 @@ class QuranToken(models.Model):
   chapter_no = models.SmallIntegerField(db_index=True)
   verse_no = models.SmallIntegerField(db_index=True)
   token_no = models.SmallIntegerField(db_index=True)
+  # TODO: Find the maximum number of characters needed for the translation.
   translation = models.CharField(max_length=100)
+  # TODO: Find the maximum number of characters needed for Buckwalter
+  # romanisation.
+  buckwalter = models.CharField(max_length=100)
 
   #def __init__(self, token_id, *args, **kwargs):
   #  super(QuranToken, self).__init__(*args, **kwargs)
@@ -25,6 +31,12 @@ class QuranToken(models.Model):
       'verse_no': self.verse_no,
       'token_no': self.token_no,
       'translation': self.translation,
+      'buckwalter': self.buckwalter,
+      # TODO: Do we need this?
+      'arabic': buckwalter_to_unicode(self.buckwalter),
+      # TODO: To decrease the load on the servers, it might be a good idea to
+      # do this processing on the client-side!
+      'phonetic': unicode_to_phonetic(buckwalter_to_unicode(self.buckwalter)),
       'segments': [s.to_dict() for s in self.segments.all().order_by('chapter_no', 'verse_no', 'token_no')]
     }
 
