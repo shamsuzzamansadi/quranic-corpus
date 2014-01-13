@@ -1,4 +1,4 @@
-var QuranInfo = (function () {
+var QuranInfo = (function() {
   'use strict';
   var i;
   var chapters;
@@ -252,7 +252,7 @@ var QuranInfo = (function () {
   chapters = [];
   for (i = 0; i < chapterCount; i += 1) {
     var chapter = {
-      index: i+1,
+      index: i + 1,
       verseCount: verseCounts[i],
       transliteratedName: chapterNamesTransliterated[i],
       englishName: chapterNamesInEnglish[i]

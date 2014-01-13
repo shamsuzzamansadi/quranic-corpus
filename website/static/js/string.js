@@ -22,3 +22,4 @@ if (!String.prototype.format) {
     });
   };
 }
+

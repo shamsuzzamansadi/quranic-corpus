@@ -4,7 +4,11 @@ Required Django frameworks
 
 pip install django
 
-2. Django REST Framework
+2. Django Registration framework
+
+pip install django-registration
+
+3. Django REST Framework
 
 pip install djangorestframework
 

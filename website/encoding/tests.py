@@ -47,6 +47,6 @@ class PhonemEncodingTests(TestCase):
     # TODO: Is it possible to make it clear that bismi is actually the letter
     # Ba' followed by an Alif which is not pronounced?
     # TODO: We need to find a way to distinguish between light and bold Lam.
-    # TODO: الرحمنshould be transcribed as 'ar-raḥmāni'.
-    # TODO: الرحيمbe transcribed as 'ar-raḥīmi'.
+    # TODO: الرحمن should be transcribed as 'ar-raḥmāni'.
+    # TODO: الرحيم should be transcribed as 'ar-raḥīmi'.
     self.assertEqual(basmala_transcribed, u'bismi al-lahi al-raḥmāni al-raḥīmi')
