@@ -2,6 +2,17 @@ var Morphology = Morphology || {};
 
 
 /**
+ * Specifies the gender of the segment.
+ */
+Morphology.Gender = {
+  /** Masculine */
+  Masculine: 0,
+  /** Feminine */
+  Feminine: 1
+};
+
+
+/**
  * Specifies the position of a segment.
  * @enum {number}
  */
@@ -212,7 +223,7 @@ Morphology.Segment = (function() {
    * @private
    */
   function _setLemma(segment, lemma) {
-    // TODO: Unbuckwalter the lemma.
+    // TODO: Buckwalter-decode the lemma.
     segment.lemma = lemma;
   }
 
@@ -223,8 +234,31 @@ Morphology.Segment = (function() {
    * @private
    */
   function _setRoot(segment, root) {
-    // TODO: Unbuckwalter the root.
+    // TODO: Buckwalter-decode the root.
     segment.root = root;
+  }
+
+
+  /**
+   * If the feature passed to the function specifies the gender of the segment,
+   * this function reads it and returns true, otherwise it returns false.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {String} feature A string specifying the feature.
+   * @return {boolean} true or false depending on the success of the function.
+   * @private
+   */
+  function _readGender(segment, feature) {
+    var ret = true;
+    if (feature === 'M') {
+      segment.gender = Morphology.Gender.Masculine;
+    }
+    else if (feature === 'F') {
+      segment.gender = Morphology.Gender.Masculine;
+    }
+    else {
+      ret = false;
+    }
+    return ret;
   }
 
   /**
@@ -243,6 +277,9 @@ Morphology.Segment = (function() {
       if (_setPosition(segment, featuresItems[i])) {
         continue;
       }
+      else if (_readGender(segment, featuresItems[i])) {
+        continue;
+      }
       var feature = featuresItems[i].split(':');
       var name = feature[0];
       var value = feature[1];
@@ -252,6 +289,7 @@ Morphology.Segment = (function() {
       }
     }
   }
+
 
   /**
    * Constructs a segment of the Holy Quran from a segment object received
@@ -271,8 +309,21 @@ Morphology.Segment = (function() {
     this.tag = remoteSegment.tag;
     this.position = null;
     this.lemma = null;
+    this.root = null;
+    this.gender = null;
 
     _extractFeatures.call(this);
+  };
+
+
+  /**
+   * Generates a morphological description of the segment. For example, the word
+   * "Al-Rahman" in Surat Al-Fatha generates "genitive masculine singular
+   * adjective"
+   * @return {string} A string describing the grammar.
+   */
+  Segment.prototype.generateMorphologicalDescription = function() {
+    return '';
   };
 
   return Segment;
