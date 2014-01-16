@@ -1,0 +1,17 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Morphology Tests</title>
+  <link rel="stylesheet" href="{% static 'css/qunit-1.13.0.css' %}">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="{% static 'js/qunit-1.13.0.js' %}"></script>
+  <script src="{% static 'morphology/js-tests/segment-tests.js' %}"></script>
+</body>
+</html>
+

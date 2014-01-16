@@ -10,6 +10,10 @@ def index(request):
   return render(request, 'morphology/index.html', {})
 
 
+def tests(request):
+  return render(request, 'morphology/tests.html')
+
+
 def quran_verse_tokens(request, chapter, verse):
   chapter = int(chapter)
   verse = int(verse)

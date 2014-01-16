@@ -15,5 +15,6 @@ urlpatterns = patterns(
   url(r'^(?P<chapter>\d+)/segments$',
       views.quran_segments_by_chapter,
       name='quran_segments_by_chapter'),
+  url(r'^tests$', views.tests, name='tests'),
   url(r'^$', views.index, name='index'),
 )
