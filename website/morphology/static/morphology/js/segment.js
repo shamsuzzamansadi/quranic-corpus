@@ -1,219 +1,284 @@
+/**
+ * Copyright (C) Quranic Arabic Corpus, 2014.
+ * Rafid K. Abdullah, rafidka@gmail.com (Developer of this file)
+ * Kais Dukes, sckd@leeds.ac.uk (Original developer of Quranic Arabic Corpus)
+ *
+ * This file is part of the Quranic Arabic Corpus.
+ *
+ * This is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * the Quranic Arabic Corpus. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * This file contains the JavaScript implementation of the Segment class, a
+ * class which helps the user apply different operations on the segments of the
+ * Holy Quran.
+ *
+ * This is a re-implementation of the original Java code written by Kais Dukes.
+ * By re-implementation it is meant that the code tries, at least at the time
+ * of writing this note, to achieve the same end functionality of the Java
+ * code, but the implementation is not necessarily identical. Since the goal of
+ * the re-implementation is to eventually support more features, it is highly
+ * expected that the implementation might start to deviate in many areas from
+ * the original Java code.
+ *
+ * @author rafidka@gmail.com (Rafid K. Abdullah)
+ */
+
 var Morphology = Morphology || {};
+
+// TODO: Use RequireJS or another dependency management system.
+if (Jsoop === undefined) {
+  throw 'The Descriptor class depends on the Segment class.';
+}
+
+// TODO: Find a better place for defining enums.
 
 
 /**
  * Specifies the gender of the segment.
+ * @enum {number}
  */
-Morphology.Gender = {
+Morphology.Gender = Jsoop.defineEnum({
   /** Masculine */
-  Masculine: 0,
+  Masculine: 'M',
   /** Feminine */
-  Feminine: 1
-};
+  Feminine: 'F'
+});
 
 
 /**
- * Specifies the position of a segment.
+ * Specifies the type of a segment.
  * @enum {number}
  */
-Morphology.SegmentPosition = {
+Morphology.SegmentType = Jsoop.defineEnum({
   /** The segment is a prefix, for example bi in basmala. */
-  Prefix: 0,
+  Prefix: 'PREFIX',
   /** The segment is a stem, for example ism in basmala. */
-  Stem: 1,
+  Stem: 'STEM',
   /** The segment is a suffix, for example naa in Thahabna. */
-  Suffix: 2
-};
+  Suffix: ''
+});
+
+
+/**
+ * An enumeration used to specify the case of a noun, which can be either
+ * nominative (مرفوع), accusative (منصوب), or genitive (مجرور).
+ * @enum {number}
+ */
+Morphology.SegmentCase = Jsoop.defineEnum({
+  /** The noun case is nominative (مرفوع). */
+  Nominative: 'NOM',
+  /** The noun case is accusative (منصوب). */
+  Accusative: 'ACC',
+  /** The noun case is genitive (مجرور). */
+  Genitive: 'GEN'
+});
 
 
 /**
  * An enumeration used to specify the part of speech of a certain segment.
- * @enum {Number}
+ * @enum {string}
  */
-Morphology.PartOfSpeeh = {
+Morphology.PartOfSpeeh = Jsoop.defineEnum({
   /** Noun (N). */
-  Noun: 0,
+  Noun: 'N',
 
   /** Proper noun (PN). */
-  ProperNoun: 1,
+  ProperNoun: 'PN',
 
   /** Personal pronoun (PRON). */
-  Pronoun: 2,
+  Pronoun: 'PRON',
 
   /** Demonstrative pronoun (DEM). */
-  Demonstrative: 3,
+  Demonstrative: 'DEM',
 
   /** Relative pronoun (REL). */
-  Relative: 4,
+  Relative: 'REL',
 
   /** * Adjective (ADJ). */
-  Adjective: 5,
+  Adjective: 'ADJ',
 
   /** Verb (V). */
-  Verb: 6,
+  Verb: 'V',
 
   /** Preposition (P). */
-  Preposition: 7,
+  Preposition: 'P',
 
   /** Interrogative particle (INTG). */
-  Interrogative: 8,
+  Interrogative: 'INTG',
 
   /** Vocative particle (VOC). */
-  Vocative: 9,
+  Vocative: 'VOC',
 
   /** Negative particle (NEG). */
-  Negative: 10,
+  Negative: 'NEG',
 
   /** Emphatic particle (EMPH). */
-  Emphatic: 11,
+  Emphatic: 'EMPH',
 
   /** Particle of purpose (PRP). */
-  Purpose: 12,
+  Purpose: 'PRP',
 
   /** Imperative particle (IMPV). */
-  Imperative: 13,
+  Imperative: 'IMPV',
 
   /** Future particle (FUT). */
-  Future: 14,
+  Future: 'FUT',
 
   /** Conjunction (CONJ). */
-  Conjunction: 15,
+  Conjunction: 'CONJ',
 
   /** Determiner (DET). */
-  Determiner: 16,
+  Determiner: 'DET',
 
   /** Quranic initials (INL). */
-  Initials: 17,
+  Initials: 'INL',
 
   /** Time adverb (T). */
-  Time: 18,
+  Time: 'T',
 
   /** Location adverb (LOC). */
-  Location: 19,
+  Location: 'LOC',
 
   /** Harf nasb (ACC). */
-  Accusative: 20,
+  Accusative: 'ACC',
 
   /** Harf shart (COND). */
-  Conditional: 21,
+  Conditional: 'COND',
 
   /** Harf masdaree (SUB). */
-  SubordinatingConjunction: 21,
+  SubordinatingConjunction: 'SUB',
 
   /** Adaat hasr (RES). */
-  Restriction: 22,
+  Restriction: 'RES',
 
   /** Adaat istithnaa (EXP). */
-  Exceptive: 23,
+  Exceptive: 'EXP',
 
   /** Harf rad3 (AVR). */
-  Aversion: 24,
+  Aversion: 'AVR',
 
   /** Harf tahqeeq (CERT). */
-  Certainty: 25,
+  Certainty: 'CERT',
 
   /** Harf idraab (RET). */
-  Retraction: 26,
+  Retraction: 'RET',
 
   /** Kaafa wa makfoofa (PREV). */
-  Preventive: 27,
+  Preventive: 'PREV',
 
   /** Harf jawaab (ANS). */
-  Answer: 28,
+  Answer: 'ANS',
 
   /** Harf ibtidaa (INC). */
-  Inceptive: 29,
+  Inceptive: 'INC',
 
   /** Harf fajaa (SUR). */
-  Surprise: 30,
+  Surprise: 'SUR',
 
   /** Harf za'ida (SUP). */
-  Supplemental: 31,
+  Supplemental: 'SUP',
 
   /** Harf tahdeed (EXH). */
-  Exhortation: 32,
+  Exhortation: 'EXH',
 
   /** Ism fi3il amr (IMPN). */
-  ImperativeVerbalNoun: 33,
+  ImperativeVerbalNoun: 'IMPN',
 
   /** Harf tafseel (EXL). */
-  Explanation: 34,
+  Explanation: 'EXL',
 
   /** Harf taswiya (EQ). */
-  Equalization: 35,
+  Equalization: 'EQ',
 
   /** Harf istinaf (REM). */
-  Resumption: 36,
+  Resumption: 'REM',
 
   /** Harf sababiyya (CAUS). */
-  Cause: 37,
+  Cause: 'CAUS',
 
   /** Harf istidrak (AMD). */
-  Amendment: 38,
+  Amendment: 'AMD',
 
   /** Prohibition particle (PRO). */
-  Prohibition: 39,
+  Prohibition: 'PRO',
 
   /** Circumstantial particle (CIRC). */
-  Circumstantial: 40,
+  Circumstantial: 'CIRC',
 
   /** Result (RSLT). */
-  Result: 41,
+  Result: 'RSLT',
 
   /** Interpretation (INT). */
-  Interpretation: 42,
+  Interpretation: 'INT',
 
   /** Comitative (COM). */
-  Comitative: 43
-};
+  Comitative: 'COM'
+});
 
 
-
+/**
+ * Represents a Segment of the Holy Quran.
+ */
 Morphology.Segment = (function() {
   'use strict';
 
   /**
-   * Sets the position of the segment (prefix, stem, or suffix) according to
-   * the given position string.
+   * If the feature passed to the function specifies the type of the segment,
+   * this function reads it and returns true, otherwise it returns false.
    * @param {Morphology.Segment} segment The segment.
-   * @param {String} positionStr A string specifying the position.
+   * @param {string} feature A string specifying the feature.
    * @return {boolean} Whether the function was successful or not.
    * @private
    */
-  function _setPosition(segment, positionStr) {
-    var ret = true;
-    if (positionStr === 'PREFIX') {
-      segment.position = Morphology.SegmentPosition.Prefix;
+  function _setType(segment, feature) {
+    if (!Morphology.SegmentType.isValidValue(feature)) {
+      return false;
     }
-    else if (positionStr === 'STEM') {
-      segment.position = Morphology.SegmentPosition.Stem;
+    segment.type = new Morphology.SegmentType(feature);
+    return true;
+  }
+
+  /**
+   * If the feature passed to the function specifies the case of the segment
+   * (specifically, nominal segments), this function reads it and returns true,
+   * otherwise it returns false.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {string} feature A string specifying the feature.
+   * @return {boolean} Whether the function was successful or not.
+   * @private
+   */
+  function _setCase(segment, feature) {
+    if (!Morphology.SegmentCase.isValidValue(feature)) {
+      return false;
     }
-    else if (positionStr === 'SUFFIX') {
-      segment.position = Morphology.SegmentPosition.Suffix;
-    }
-    else {
-      ret = false;
-    }
-    return ret;
+    segment.case = new Morphology.SegmentCase(feature);
+    return true;
   }
 
   /**
    * Sets the part of speech of the given segment depending on the part of
    * speech value.
    * @param {Morphology.Segment} segment The segment.
-   * @param {String} posStr The string representing the part of speech.
+   * @param {String} partOfSpeech The string representing the part of speech.
    * @private
    */
-  function _setPartOfSpeech(segment, posStr) {
-    if (posStr === 'PREFIX') {
-      segment.position = Morphology.SegmentPosition.Prefix;
+  function _setPartOfSpeech(segment, partOfSpeech) {
+    if (!Morphology.PartOfSpeeh.isValidValue(partOfSpeech)) {
+      throw 'Invalid part of speech value.';
     }
-    else if (posStr === 'STEM') {
-      segment.position = Morphology.SegmentPosition.Stem;
-    }
-    else if (posStr === 'SUFFIX') {
-      segment.position = Morphology.SegmentPosition.Suffix;
-    }
+    segment.partOfSpeech = new Morphology.PartOfSpeeh(partOfSpeech);
   }
 
   /**
@@ -248,17 +313,11 @@ Morphology.Segment = (function() {
    * @private
    */
   function _readGender(segment, feature) {
-    var ret = true;
-    if (feature === 'M') {
-      segment.gender = Morphology.Gender.Masculine;
+    if (!Morphology.Gender.isValidValue(feature)) {
+      return false;
     }
-    else if (feature === 'F') {
-      segment.gender = Morphology.Gender.Masculine;
-    }
-    else {
-      ret = false;
-    }
-    return ret;
+    segment.gender = new Morphology.Gender(feature);
+    return true;
   }
 
   /**
@@ -268,13 +327,22 @@ Morphology.Segment = (function() {
   function _extractFeatures(segment) {
     var i;
     var setterFuncs = {
-      'POS': _setPartOfSpeech,
+      // We don't need this (at least for now) because the morphology document
+      // retrieved from the website already contain a field specifying the
+      // part of speech, and the features field doesn't always explicitly
+      // contain the part of speech (e.g. POS|N), so sometimes we need to do
+      // some processing, so for now the field provided by the morphology
+      // document seems to do the job.
+      //'POS': _setPartOfSpeech,
       'LEM': _setLemma,
       'ROOT': _setRoot
     };
     var featuresItems = segment.features.split('|');
     for (i = 0; i < featuresItems.length; i++) {
-      if (_setPosition(segment, featuresItems[i])) {
+      if (_setType(segment, featuresItems[i])) {
+        continue;
+      }
+      else if (_setCase(segment, featuresItems[i])) {
         continue;
       }
       else if (_readGender(segment, featuresItems[i])) {
@@ -284,7 +352,7 @@ Morphology.Segment = (function() {
       var name = feature[0];
       var value = feature[1];
       var func = setterFuncs[name];
-      if (func === 'function') {
+      if (typeof func === 'function') {
         func(segment, value);
       }
     }
@@ -306,13 +374,24 @@ Morphology.Segment = (function() {
     //this.segmentNo = remoteSegment.segment_no;
     this.form = remoteSegment.form;
     this.features = remoteSegment.features;
-    this.tag = remoteSegment.tag;
-    this.position = null;
+    //this.tag = remoteSegment.tag;
+    this.type = null;
+    // TODO: 'case' is a reserved word, so it might be better to find another
+    // word, but I can't think of anything at this moment, because 'case' is
+    // the word used in Kais's work, and if I use a word like caseType, then
+    // it will different than the naming convention used in other fields.
+    this.case = null;
+    // In the Java application, the tag is being decided for prefixes depending
+    // on the prefix itself, e.g. bi+ is a preposition. But the tag coming
+    // from the morphology file is actually the part of speech, so I am just
+    // using it here. If this proves to be incorrect, then we need to implement
+    // the functionality to extract the part of speech.
+    this.partOfSpeech = new Morphology.PartOfSpeeh(remoteSegment.tag);
     this.lemma = null;
     this.root = null;
     this.gender = null;
 
-    _extractFeatures.call(this);
+    _extractFeatures(this);
   };
 
 
@@ -324,6 +403,19 @@ Morphology.Segment = (function() {
    */
   Segment.prototype.generateMorphologicalDescription = function() {
     return '';
+  };
+
+  /**
+   * Retrieves the name of the segment, e.g. noun, active participle, etc.
+   * @return {string} The name of the segment.
+   */
+  Segment.prototype.getName = function() {
+    switch (this.partOfSpeech.value) {
+      case Morphology.PartOfSpeeh.Noun:
+        return 'noun';
+      default:
+        throw 'Not implemented yet.';
+    }
   };
 
   return Segment;

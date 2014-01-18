@@ -19,7 +19,7 @@
  * the Quranic Arabic Corpus. If not, see <http://www.gnu.org/licenses/>.
  */
 
-test('Extract b/bi/b Features', function() {
+test('Generate b/bi/ Description', function() {
   'use strict';
   var bi = new Morphology.Segment({
     'token_no': 1,
@@ -32,11 +32,12 @@ test('Extract b/bi/b Features', function() {
     'features': 'PREFIX|bi+'
   });
 
-  equal(bi.type.value, Morphology.SegmentType.Prefix);
-  equal(bi.partOfSpeech.value, Morphology.PartOfSpeeh.Preposition);
+  var descriptor = new Morphology.Descriptor();
+  var biDesc = descriptor.generateSegmentDescription(bi);
+  equal(biDesc, 'prefixed preposition');
 });
 
-test('Extract b/somi/b Features', function() {
+test('Generate b/somi/ Description', function() {
   'use strict';
   var somi = new Morphology.Segment({
     'token_no': 1,
@@ -48,11 +49,7 @@ test('Extract b/somi/b Features', function() {
     'verse_no': 1,
     'features': 'STEM|POS:N|LEM:{som|ROOT:smw|M|GEN'
   });
-
-  equal(somi.type.value, Morphology.SegmentType.Stem);
-  equal(somi.partOfSpeech.value, Morphology.PartOfSpeeh.Noun);
-  equal(somi.lemma, '{som');
-  equal(somi.root, 'smw');
-  equal(somi.gender.value, Morphology.Gender.Masculine);
-  equal(somi.case.value, Morphology.SegmentCase.Genitive);
+  var descriptor = new Morphology.Descriptor();
+  var somiDesc = descriptor.generateSegmentDescription(somi);
+  equal(somiDesc, 'genitive masculine noun');
 });
