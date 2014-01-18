@@ -46,8 +46,22 @@ if (Jsoop === undefined) {
 
 
 /**
+ * Specifies whether the segment refers to the first, second, or third person.
+ * @enum {string}
+ */
+Morphology.Person = Jsoop.defineEnum({
+  /** The segment refers to the first person. */
+  First: '1',
+  /** The segment refers to the second person. */
+  Second: '2',
+  /** The segment refers to the third person. */
+  Third: '3'
+});
+
+
+/**
  * Specifies the gender of the segment.
- * @enum {number}
+ * @enum {string}
  */
 Morphology.Gender = Jsoop.defineEnum({
   /** Masculine */
@@ -58,8 +72,22 @@ Morphology.Gender = Jsoop.defineEnum({
 
 
 /**
+ * Specifies the number of people a segment refers to.
+ * @enum {string}
+ */
+Morphology.Number = Jsoop.defineEnum({
+  /** The segment refers to a single person. */
+  Singular: 'S',
+  /** The segment refers to two persons. */
+  Dual: 'D',
+  /** The segment refers to three or more persons. */
+  Plural: 'P'
+});
+
+
+/**
  * Specifies the type of a segment.
- * @enum {number}
+ * @enum {string}
  */
 Morphology.SegmentType = Jsoop.defineEnum({
   /** The segment is a prefix, for example bi in basmala. */
@@ -67,14 +95,14 @@ Morphology.SegmentType = Jsoop.defineEnum({
   /** The segment is a stem, for example ism in basmala. */
   Stem: 'STEM',
   /** The segment is a suffix, for example naa in Thahabna. */
-  Suffix: ''
+  Suffix: 'SUFFIX'
 });
 
 
 /**
  * An enumeration used to specify the case of a noun, which can be either
  * nominative (مرفوع), accusative (منصوب), or genitive (مجرور).
- * @enum {number}
+ * @enum {string}
  */
 Morphology.SegmentCase = Jsoop.defineEnum({
   /** The noun case is nominative (مرفوع). */
@@ -305,18 +333,35 @@ Morphology.Segment = (function() {
 
 
   /**
-   * If the feature passed to the function specifies the gender of the segment,
-   * this function reads it and returns true, otherwise it returns false.
+   * If the feature passed to the function specifies the person type, gender, or
+   * number of the segment, this function reads it and returns true, otherwise
+   * it returns false.
    * @param {Morphology.Segment} segment The segment.
    * @param {String} feature A string specifying the feature.
    * @return {boolean} true or false depending on the success of the function.
    * @private
    */
-  function _readGender(segment, feature) {
-    if (!Morphology.Gender.isValidValue(feature)) {
+  function _readPersonGenderNumber(segment, feature) {
+    var allowedValues = ['1P', '1S', '2D', '2FP', '2FS',
+      '2MD', '2FD', '2MP', '2MS', '3D', '3FD', '3FP', '3FS', '3MD',
+      '3MP', '3MS', 'F', 'FD', 'FP', 'FS', 'M', 'MD', 'MP', 'MS', 'P'];
+
+    if (allowedValues.indexOf(feature) === -1) {
       return false;
     }
-    segment.gender = new Morphology.Gender(feature);
+
+    var i;
+    for (i = 0; i < feature.length; i++) {
+      if (Morphology.Person.isValidValue(feature[i])) {
+        segment.person = new Morphology.Person(feature[i]);
+      }
+      if (Morphology.Gender.isValidValue(feature[i])) {
+        segment.gender = new Morphology.Gender(feature[i]);
+      }
+      if (Morphology.Number.isValidValue(feature[i])) {
+        segment.number = new Morphology.Number(feature[i]);
+      }
+    }
     return true;
   }
 
@@ -345,7 +390,7 @@ Morphology.Segment = (function() {
       else if (_setCase(segment, featuresItems[i])) {
         continue;
       }
-      else if (_readGender(segment, featuresItems[i])) {
+      else if (_readPersonGenderNumber(segment, featuresItems[i])) {
         continue;
       }
       var feature = featuresItems[i].split(':');
@@ -372,7 +417,7 @@ Morphology.Segment = (function() {
     //this.verseNo = remoteSegment.verse_no;
     //this.tokenNo = remoteSegment.token_no;
     //this.segmentNo = remoteSegment.segment_no;
-    this.form = remoteSegment.form;
+    //this.form = remoteSegment.form;
     this.features = remoteSegment.features;
     //this.tag = remoteSegment.tag;
     this.type = null;
@@ -386,24 +431,29 @@ Morphology.Segment = (function() {
     // from the morphology file is actually the part of speech, so I am just
     // using it here. If this proves to be incorrect, then we need to implement
     // the functionality to extract the part of speech.
+    if (!Morphology.PartOfSpeeh.isValidValue(remoteSegment.tag)) {
+      throw 'Invalid segment tag.';
+    }
     this.partOfSpeech = new Morphology.PartOfSpeeh(remoteSegment.tag);
     this.lemma = null;
     this.root = null;
+    this.person = null;
     this.gender = null;
+    this.number = null;
 
     _extractFeatures(this);
   };
 
 
-  /**
-   * Generates a morphological description of the segment. For example, the word
-   * "Al-Rahman" in Surat Al-Fatha generates "genitive masculine singular
-   * adjective"
-   * @return {string} A string describing the grammar.
-   */
-  Segment.prototype.generateMorphologicalDescription = function() {
-    return '';
-  };
+  // /**
+  //  * Generates a morphological description of the segment. For example, the
+  //  * word "Al-Rahman" in Surat Al-Fatha generates "genitive masculine
+  //  * singular adjective"
+  //  * @return {string} A string describing the grammar.
+  //  */
+  // Segment.prototype.generateMorphologicalDescription = function() {
+  //   return '';
+  // };
 
   /**
    * Retrieves the name of the segment, e.g. noun, active participle, etc.
@@ -411,8 +461,16 @@ Morphology.Segment = (function() {
    */
   Segment.prototype.getName = function() {
     switch (this.partOfSpeech.value) {
+      case Morphology.PartOfSpeeh.Preposition:
+        return 'preposition';
+      case Morphology.PartOfSpeeh.Determiner:
+        return 'determiner';
       case Morphology.PartOfSpeeh.Noun:
         return 'noun';
+      case Morphology.PartOfSpeeh.ProperNoun:
+        return 'proper noun';
+      case Morphology.PartOfSpeeh.Adjective:
+        return 'adjective';
       default:
         throw 'Not implemented yet.';
     }

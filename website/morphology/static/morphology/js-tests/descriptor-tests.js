@@ -21,7 +21,7 @@
 
 test('Generate b/bi/ Description', function() {
   'use strict';
-  var bi = new Morphology.Segment({
+  var segment = new Morphology.Segment({
     'token_no': 1,
     'tag': 'P',
     'chapter_no': 1,
@@ -33,13 +33,13 @@ test('Generate b/bi/ Description', function() {
   });
 
   var descriptor = new Morphology.Descriptor();
-  var biDesc = descriptor.generateSegmentDescription(bi);
-  equal(biDesc, 'prefixed preposition');
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'prefixed preposition');
 });
 
 test('Generate b/somi/ Description', function() {
   'use strict';
-  var somi = new Morphology.Segment({
+  var segment = new Morphology.Segment({
     'token_no': 1,
     'tag': 'N',
     'chapter_no': 1,
@@ -50,6 +50,74 @@ test('Generate b/somi/ Description', function() {
     'features': 'STEM|POS:N|LEM:{som|ROOT:smw|M|GEN'
   });
   var descriptor = new Morphology.Descriptor();
-  var somiDesc = descriptor.generateSegmentDescription(somi);
-  equal(somiDesc, 'genitive masculine noun');
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'genitive masculine noun');
+});
+
+test('Generate b/{ll~ahi/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment({
+    'token_no': 2,
+    'tag': 'PN',
+    'chapter_no': 1,
+    'form': '{ll~ahi',
+    'segment_id': 1001002001,
+    'segment_no': 1,
+    'verse_no': 1,
+    'features': 'STEM|POS:PN|LEM:{ll~ah|ROOT:Alh|GEN'
+  });
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'genitive proper noun');
+});
+
+test('Generate b/{l/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment({
+    'token_no': 3,
+    'tag': 'DET',
+    'chapter_no': 1,
+    'form': '{l',
+    'segment_id': 1001003001,
+    'segment_no': 1,
+    'verse_no': 1,
+    'features': 'PREFIX|Al+'
+  });
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'prefixed determiner');
+});
+
+test('Generate b/{ll~ahi/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment({
+    'token_no': 3,
+    'tag': 'ADJ',
+    'chapter_no': 1,
+    'form': 'r~aHoma`ni',
+    'segment_id': 1001003002,
+    'segment_no': 2,
+    'verse_no': 1,
+    'features': 'STEM|POS:ADJ|LEM:r~aHoma`n|ROOT:rHm|MS|GEN'
+  });
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'genitive masculine singular adjective');
+});
+
+test('Generate b/r~aHiymi/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment({
+    'token_no': 4,
+    'tag': 'ADJ',
+    'chapter_no': 1,
+    'form': 'r~aHiymi',
+    'segment_id': 1001004002,
+    'segment_no': 2,
+    'verse_no': 1,
+    'features': 'STEM|POS:ADJ|LEM:r~aHiym|ROOT:rHm|MS|GEN'
+  });
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'genitive masculine singular adjective');
 });

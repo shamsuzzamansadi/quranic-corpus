@@ -61,11 +61,7 @@ Morphology.Descriptor = (function() {
    * @private
    */
   function _generatePrefixDescription(segment) {
-    switch (segment.partOfSpeech.value) {
-      case Morphology.PartOfSpeeh.Preposition:
-        return 'prefixed preposition';
-    }
-    throw 'Not implemented yet!';
+    return 'prefixed ' + segment.getName();
   }
 
   /**
@@ -90,13 +86,25 @@ Morphology.Descriptor = (function() {
    * @private
    */
   function _appendStemPersonGenderNumber(segment, descArray) {
-    /*if (segment.person != null) {
-
-     }*/
+    // TODO: Improve defineEnum to support attaching  description to enum.
+    // This allows us to make this mode much conciser.
+    if (segment.person !== null) {
+      switch (segment.person.value) {
+        case Morphology.Person.First:
+          descArray.push('1st');
+          break;
+        case Morphology.Person.Second:
+          descArray.push('2nd');
+          break;
+        case Morphology.Person.Third:
+          descArray.push('3rd');
+          break;
+        default:
+          throw 'Invalid person.';
+      }
+    }
 
     if (segment.gender !== null) {
-      // TODO: Improve defineEnum to support attaching  description to enum.
-      // This allows us to make this mode much conciser.
       switch (segment.gender.value) {
         case Morphology.Gender.Masculine:
           descArray.push('masculine');
@@ -109,9 +117,9 @@ Morphology.Descriptor = (function() {
       }
     }
 
-    /*if (segment.number !== null) {
-     description.push(segment.number.value.toLowerCase());
-     }*/
+    if (segment.number !== null) {
+      descArray.push(segment.number.toString().toLowerCase());
+    }
   }
 
   /**
