@@ -65,6 +65,7 @@ __unicode_to_buckwalter_map = {
   unichr(0x06EB): '+',  # Empty Centre High Stop (Extended Buckwalter)
   unichr(0x06EC): '%',  # Rounded High Stop With Filled Centre (Extended Buckwalter)
   unichr(0x06ED): ']',  # Small Low Meem (Extended Buckwalter)
+  ' ': ' ',
 }
 
 
