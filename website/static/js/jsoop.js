@@ -91,5 +91,15 @@ Jsoop.defineEnum = function(enumFields) {
     throw 'Invalid enum value.';
   };
 
+  /**
+   * Returns a description of the enum value. This assumes the enum values are
+   * camel-cased and accordingly separate the words by whitespaces.
+   * @return {string} The description of the enum value.
+   */
+  newEnum.prototype.toDescription = function() {
+    var str = this.toString();
+    return str.match(/[A-Z][a-z]+/g).join(' ');
+  };
+
   return newEnum;
 };
