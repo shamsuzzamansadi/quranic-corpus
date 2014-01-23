@@ -257,6 +257,20 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
 
 
 /**
+ * An enumeration used to specify the derivation of a certain segment.
+ * @enum {string}
+ */
+Morphology.Derivation = Jsoop.defineEnum({
+  /** Active Participle (ACT PCPL) */
+  ActiveParticiple: 'ACT PCPL',
+  /** Passive Participle (PASS PCPL) */
+  PassiveParticiple: 'PASS PCPL',
+  /** Verbal Noun (VN) */
+  VerbalNoun: 'VN'
+});
+
+
+/**
  * Represents a Segment of the Holy Quran.
  */
 Morphology.Segment = (function() {
@@ -299,7 +313,7 @@ Morphology.Segment = (function() {
    * Sets the part of speech of the given segment depending on the part of
    * speech value.
    * @param {Morphology.Segment} segment The segment.
-   * @param {String} partOfSpeech The string representing the part of speech.
+   * @param {string} partOfSpeech The string representing the part of speech.
    * @private
    */
   function _setPartOfSpeech(segment, partOfSpeech) {
@@ -307,6 +321,19 @@ Morphology.Segment = (function() {
       throw 'Invalid part of speech value.';
     }
     segment.partOfSpeech = new Morphology.PartOfSpeeh(partOfSpeech);
+  }
+
+  /**
+   * Sets the derivation of the given segment to the given derivation value.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {string} derivation The string representing the derivation.
+   * @private
+   */
+  function _setDerivation(segment, derivation) {
+    if (!Morphology.Derivation.isValidValue(derivation)) {
+      throw 'Invalid derivation value.';
+    }
+    segment.derivation = new Morphology.Derivation(derivation);
   }
 
   /**
@@ -379,6 +406,7 @@ Morphology.Segment = (function() {
       // some processing, so for now the field provided by the morphology
       // document seems to do the job.
       //'POS': _setPartOfSpeech,
+      'DER': _setDerivation,
       'LEM': _setLemma,
       'ROOT': _setRoot
     };
@@ -435,6 +463,7 @@ Morphology.Segment = (function() {
       throw 'Invalid segment tag.';
     }
     this.partOfSpeech = new Morphology.PartOfSpeeh(remoteSegment.tag);
+    this.derivation = null;
     this.lemma = null;
     this.root = null;
     this.person = null;
@@ -460,20 +489,30 @@ Morphology.Segment = (function() {
    * @return {string} The name of the segment.
    */
   Segment.prototype.getName = function() {
-    switch (this.partOfSpeech.value) {
-      case Morphology.PartOfSpeeh.Preposition:
-        return 'preposition';
-      case Morphology.PartOfSpeeh.Determiner:
-        return 'determiner';
-      case Morphology.PartOfSpeeh.Noun:
-        return 'noun';
-      case Morphology.PartOfSpeeh.ProperNoun:
-        return 'proper noun';
-      case Morphology.PartOfSpeeh.Adjective:
-        return 'adjective';
-      default:
-        throw 'Not implemented yet.';
+    if (this.derivation !== null) {
+      return this.derivation.toDescription().toLowerCase();
     }
+
+    if (this.partOfSpeech !== null) {
+      return this.partOfSpeech.toDescription().toLowerCase();
+    }
+
+    throw "Couldn't find the name of the segment.";
+  };
+
+  /**
+   * Determines whether this segment is equal to the given segment.
+   * @param {Morphology.Segment} segment The segment to compare with.
+   * @return {boolean} true or false.
+   */
+  Segment.prototype.equals = function(segment) {
+    var key;
+    for (key in this) {
+      if (this.hasOwnProperty(key) && this[key] !== segment[key]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   return Segment;
