@@ -485,6 +485,25 @@ Morphology.Segment = (function() {
   // };
 
   /**
+   * Retrieves the name of a segment of type pronoun. Pronouns are a bit more
+   * complicated to find its name than other segment types.
+   * @param {Morphology.Segment} segment The segment.
+   * @return {string} The name of the segment.
+   * @private
+   */
+  function _getPronounName(segment) {
+    var name;
+    if (segment.type.value === Morphology.SegmentType.Stem) {
+      // ضمير منفصل
+      name = 'personal pronoun';
+    }
+    else if (segment.type.value === Morphology.SegmentType.Stem) {
+      throw 'Not implemented yet.';
+    }
+    return name;
+  }
+
+  /**
    * Retrieves the name of the segment, e.g. noun, active participle, etc.
    * @return {string} The name of the segment.
    */
@@ -494,7 +513,12 @@ Morphology.Segment = (function() {
     }
 
     if (this.partOfSpeech !== null) {
-      return this.partOfSpeech.toDescription().toLowerCase();
+      switch (this.partOfSpeech.value) {
+        case Morphology.PartOfSpeeh.Pronoun:
+          return _getPronounName(this);
+        default:
+          return this.partOfSpeech.toDescription().toLowerCase();
+      }
     }
 
     throw "Couldn't find the name of the segment.";

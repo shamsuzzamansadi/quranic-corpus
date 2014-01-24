@@ -21,6 +21,59 @@
 
 /*global equal*/
 
+var verse5 = [
+  {
+    'token_no': 1,
+    'tag': 'PRON',
+    'chapter_no': 1,
+    'form': '<iy~aAka',
+    'segment_id': 1005001001,
+    'segment_no': 1,
+    'verse_no': 5,
+    'features': 'STEM|POS:PRON|LEM:<iy~aA|2MS'
+  },
+  {
+    'token_no': 2,
+    'tag': 'V',
+    'chapter_no': 1,
+    'form': 'naEobudu',
+    'segment_id': 1005002001,
+    'segment_no': 1,
+    'verse_no': 5,
+    'features': 'STEM|POS:V|IMPF|LEM:Eabada|ROOT:Ebd|1P'
+  },
+  {
+    'token_no': 3,
+    'tag': 'CONJ',
+    'chapter_no': 1,
+    'form': 'wa',
+    'segment_id': 1005003001,
+    'segment_no': 1,
+    'verse_no': 5,
+    'features': 'PREFIX|w:CONJ+'
+  },
+  {
+    'token_no': 3,
+    'tag': 'PRON',
+    'chapter_no': 1,
+    'form': '<iy~aAka',
+    'segment_id': 1005003002,
+    'segment_no': 2,
+    'verse_no': 5,
+    'features': 'STEM|POS:PRON|LEM:<iy~aA|2MS'
+  },
+  {
+    'token_no': 4,
+    'tag': 'V',
+    'chapter_no': 1,
+    'form': 'nasotaEiynu',
+    'segment_id': 1005004001,
+    'segment_no': 1,
+    'verse_no': 5,
+    'features': 'STEM|POS:V|IMPF|(X)|LEM:{sotaEiynu|ROOT:Ewn|1P'
+  }
+];
+
 test('Generate b/bi/ Description', function() {
   'use strict';
   var segment = new Morphology.Segment({
@@ -259,3 +312,45 @@ test('Generate b/d~iyni/ Description', function() {
   var desc = descriptor.generateSegmentDescription(segment);
   equal(desc, 'genitive masculine noun');
 });
+
+test('Generate b/d~iyni/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment({
+    'token_no': 3,
+    'tag': 'N',
+    'chapter_no': 1,
+    'form': 'd~iyni',
+    'segment_id': 1004003002,
+    'segment_no': 2,
+    'verse_no': 4,
+    'features': 'STEM|POS:N|LEM:diyn|ROOT:dyn|M|GEN'
+  });
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, 'genitive masculine noun');
+});
+
+test('Generate b/<iy~aAka/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment(verse5[0]);
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, '2nd person masculine singular personal pronoun');
+});
+
+test('Generate b/<iy~aAka/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment(verse5[1]);
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, '1st person plural imperfect verb');
+});
+
+test('Generate b/<iy~aAka/ Description', function() {
+  'use strict';
+  var segment = new Morphology.Segment(verse5[2]);
+  var descriptor = new Morphology.Descriptor();
+  var desc = descriptor.generateSegmentDescription(segment);
+  equal(desc, '2nd person masculine singular personal pronoun');
+});
+

@@ -91,13 +91,13 @@ Morphology.Descriptor = (function() {
     if (segment.person !== null) {
       switch (segment.person.value) {
         case Morphology.Person.First:
-          descArray.push('1st');
+          descArray.push('1st person');
           break;
         case Morphology.Person.Second:
-          descArray.push('2nd');
+          descArray.push('2nd person');
           break;
         case Morphology.Person.Third:
-          descArray.push('3rd');
+          descArray.push('3rd person');
           break;
         default:
           throw 'Invalid person.';
