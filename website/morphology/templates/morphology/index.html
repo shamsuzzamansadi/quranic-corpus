@@ -3,10 +3,13 @@
 
 {% block title %}Word by Word Syntax and Morphology{% endblock %}
 
-{% block scripts %}
+{% block header_scripts %}
+  <script src="{% static 'js/jsoop.js' %}"></script>
+  <script src="{% static 'js/string.js' %}"></script>
+  <script src="{% static 'morphology/js/document.js' %}"></script>
+  <script src="{% static 'morphology/js/segment.js' %}"></script>
+  <script src="{% static 'morphology/js/descriptor.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/quran-info.js' %}">
-  </script>
-  <script type="text/javascript" src="{% static 'morphology/js/index.js' %}">
   </script>
 {% endblock %}
 
@@ -61,7 +64,7 @@
         <th>Arabic word</th>
         <th class="head3">Syntax and morphology</th>
       </tr>
-      <tr ng-repeat="token in tokens">
+      <tr ng-repeat="token in tokens" data-my-repeat-directive>
         <td>
           <div class="location">
             ([[token.chapter_no]]:[[token.verse_no]]:[[token.token_no]])
@@ -72,7 +75,13 @@
           [[token.translation]]
         </td>
         <td><img src="http://corpus.quran.com/wordimage?id=[[ token.token_id]]" /></td>
-        <td>[[]]</td>
+        <td style="text-align: right;">
+          <div ng-repeat="segment in token.segments">
+            <span style="font-weight: bold;" class="segment_[[ segment.tag ]]">[[ segment.tag ]]</span>
+            -
+            <span>[[ segment.description ]]</span>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -80,8 +89,6 @@
 {% endblock %}
 
 {% block footer_scripts %}
-  <script type="text/javascript" src="{% static 'js/quran-info.js' %}">
-  </script>
   <script type="text/javascript" src="{% static 'morphology/js/index.js' %}">
   </script>
 {% endblock %}

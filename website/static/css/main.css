@@ -197,15 +197,15 @@ pre.example {
 	color: rgb(87, 87, 87);
 }
 
-.segSky {
+.segment_N, .segment_PRON {
 	color: rgb(84, 141, 212);
 }
 
-.segBlue {
+.segment_PN {
 	color: rgb(37, 126, 156);
 }
 
-.segPurple {
+.segment_ADJ {
 	color: rgb(129, 38, 192);
 }
 
@@ -217,11 +217,11 @@ pre.example {
 	color: rgb(92, 112, 133);
 }
 
-.segGold {
+.segment_REL {
 	color: rgb(129, 116, 24);
 }
 
-.segSeagreen {
+.segment_V {
 	color: rgb(50, 189, 47);
 }
 
@@ -229,11 +229,11 @@ pre.example {
 	color: rgb(29, 105, 20);
 }
 
-.segRed {
+.segment_NEG {
 	color: rgb(244, 64, 11);
 }
 
-.segRust {
+.segment_P {
 	color: rgb(173, 35, 35);
 }
 
@@ -245,7 +245,7 @@ pre.example {
 	color: rgb(253, 81, 98);
 }
 
-.segNavy {
+.segment_CONJ {
 	color: rgb(19, 1, 184);
 }
 

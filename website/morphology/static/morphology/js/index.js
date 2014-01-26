@@ -62,6 +62,15 @@
         $scope.tokens = TokensService.query({
           chapter: $scope.selectedChapter.index,
           verse: $scope.selectedVerse
+        }, function(tokens) {
+          _.forEach(tokens, function(token) {
+            var descriptor = new Morphology.Descriptor();
+            var document = new Morphology.Document(token.segments);
+            _.forEach(token.segments, function(segment, index) {
+              segment.description = descriptor.generateSegmentDescription(
+                  document.getSegment(index));
+            });
+          });
         });
       };
     }]);
