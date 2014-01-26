@@ -3,5 +3,6 @@ This software is "mostly" licensed under GPL v3 as specified in the file
 specified in each file. At the moment, these are the files which have different
 licence:
 
-website/static/js/jsoop.js
-website/static/js/string.js
+- All third party libraries used within the project like jQuery, AngularJS, etc.
+- website/static/js/jsoop.js
+- website/static/js/string.js

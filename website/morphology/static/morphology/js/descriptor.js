@@ -85,7 +85,7 @@ Morphology.Descriptor = (function() {
    * description of the stem.
    * @private
    */
-  function _appendStemPersonGenderNumber(segment, descArray) {
+  function _appendStemPhiFeatures(segment, descArray) {
     // TODO: Improve defineEnum to support attaching  description to enum.
     // This allows us to make this mode much conciser.
     if (segment.person !== null) {
@@ -123,6 +123,32 @@ Morphology.Descriptor = (function() {
   }
 
   /**
+   * Appends the verb form to the given description array.
+   * @param {Morphology.Segment} segment
+   * @param {string[]} descArray An array containing the words making up the
+   * description of the stem.
+   * @private
+   */
+  function _appendStemForm(segment, descArray) {
+    if (segment.verbForm !== null) {
+      descArray.push('(form ' + segment.verbForm.value + ')');
+    }
+  }
+
+  /**
+   * Appends the verb aspect to the given description array.
+   * @param {Morphology.Segment} segment
+   * @param {string[]} descArray An array containing the words making up the
+   * description of the stem.
+   * @private
+   */
+  function _appendStemAspect(segment, descArray) {
+    if (segment.verbAspect !== null) {
+      descArray.push(segment.verbAspect.toString().toLowerCase());
+    }
+  }
+
+  /**
    * Generates a morphological description for the given stem-type segment.
    * @param {Morphology.Segment} segment The stem-type segment to retrieve the
    * description for.
@@ -130,22 +156,33 @@ Morphology.Descriptor = (function() {
    * @private
    */
   function _generateStemDescription(segment) {
-    var description = [];
-    _appendStemCase(segment, description);
-    _appendStemPersonGenderNumber(segment, description);
-    description.push(segment.getName());
-    return description.join(' ');
+    var descArray = [];
+    _appendStemCase(segment, descArray);
+    _appendStemPhiFeatures(segment, descArray);
+    _appendStemForm(segment, descArray);
+    _appendStemAspect(segment, descArray);
+    descArray.push(segment.getName());
+    return descArray.join(' ');
   }
 
   /**
    * Generates a morphological description for the
    * @param {Morphology.Segment} segment The suffix-type segment to retrieve the
    * description for.
-   * @return {String} The morphological description of the segment.
+   * @return {string} The morphological description of the segment.
    * @private
    */
   function _generateSuffixDescription(segment) {
-    throw 'Not implemented yet!';
+    var descArray = [];
+    var pronounType = segment.findPronounType();
+    // If the suffix is a subject pronoun, we don't need to add the phi
+    // features because they follow those of the verb.
+    if (pronounType === null ||
+        pronounType.value !== Morphology.PronounType.Subject) {
+      _appendStemPhiFeatures(segment, descArray);
+    }
+    descArray.push(segment.getName());
+    return descArray.join(' ');
   }
 
   /**

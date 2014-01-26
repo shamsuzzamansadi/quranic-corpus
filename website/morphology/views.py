@@ -76,8 +76,8 @@ def quran_segment_by_id(request, segment_id):
 
 
 def quran_segments_by_chapter(request, chapter):
-  segments = list(QuranSegment.objects.filter(chapter_no__exact=chapter))
+  segments = [s.to_dict() for s in QuranSegment.objects.filter(chapter_no__exact=chapter)]
   #return HttpResponse("Hello, world. You're at the morphology index.")
   return HttpResponse(
-    serializers.serialize('json', segments),
+    json.dumps(segments),
     content_type='application/json')

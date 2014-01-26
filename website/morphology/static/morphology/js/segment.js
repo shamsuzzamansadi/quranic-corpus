@@ -35,6 +35,8 @@
  * @author rafidka@gmail.com (Rafid K. Abdullah)
  */
 
+// TODO: This file is getting big. I think it is better to remove each enum
+// to its own file.
 var Morphology = Morphology || {};
 
 // TODO: Use RequireJS or another dependency management system.
@@ -132,7 +134,7 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   Demonstrative: 'DEM',
 
   /** Relative pronoun (REL). */
-  Relative: 'REL',
+  RelativePronoun: 'REL',
 
   /** * Adjective (ADJ). */
   Adjective: 'ADJ',
@@ -150,7 +152,7 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   Vocative: 'VOC',
 
   /** Negative particle (NEG). */
-  Negative: 'NEG',
+  NegativeParticle: 'NEG',
 
   /** Emphatic particle (EMPH). */
   Emphatic: 'EMPH',
@@ -256,6 +258,7 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
 });
 
 
+// TODO: Rename to NounDerivation?
 /**
  * An enumeration used to specify the derivation of a certain segment.
  * @enum {string}
@@ -271,7 +274,79 @@ Morphology.Derivation = Jsoop.defineEnum({
 
 
 /**
+ * An enumeration used to specify the aspect of a verb. The aspect of the
+ * verb can be either perfect, imperfect, or imperative.
+ *
+ * Note from the Java code of Kais Dukes:
+ *
+ * The AspectType enumeration [I renamed the type to VerbAspect here] specifies
+ * the aspect of a verb, its most important morphological feature. This is
+ * closely related to, but distinct from the concept of tense. In classical
+ * Arabic, the aspect of a verb is either perfect, imperfect, or imperative.
+ * The perfect roughly corresponds to the past tense in English, although there
+ * is a distinction: The perfect refers to actions which have been completed.
+ *
+ * @enum {string}
+ */
+Morphology.VerbAspect = Jsoop.defineEnum({
+  /** The verb is perfect (فعل ماضي) */
+  Perfect: 'PERF',
+  /** The verb is imperfect (فعل مضارع) */
+  Imperfect: 'IMPF',
+  /** The verb is imperative (فعل امر) */
+  Imperative: 'IMPV'
+});
+
+
+/**
+ * An enumeration used to specify the form of the verb, e.g. form I, etc.
+ * @enum {Function}
+ */
+Morphology.VerbForm = Jsoop.defineEnum({
+  /** First form (I) */
+  First: 'I',
+  /** Second form (II) */
+  Second: 'II',
+  /** Third form (III) */
+  Third: 'III',
+  /** Fourth form (IV) */
+  Fourth: 'IV',
+  /** Fifth form (V) */
+  Fifth: 'V',
+  /** Sixth form (VI) */
+  Sixth: 'VI',
+  /** Seventh form (VII) */
+  Seventh: 'VII',
+  /** Eighth form (IIX) */
+  Eighth: 'IIX',
+  /** Ninth form (IIX) */
+  Ninth: 'IX',
+  /** Tenth form (IX) */
+  Tenth: 'X',
+  /** Eleventh form (X) */
+  Eleventh: 'XI',
+  /** Twelfth form (XII) */
+  Twelth: 'XII'
+});
+
+
+/**
+ * An enumeration used to specify the type of a pronoun.
+ * @enum {number}
+ */
+Morphology.PronounType = Jsoop.defineEnum({
+  /** Subject pronoun */
+  Subject: 0,
+  /** Object pronoun */
+  Object: 1,
+  /** Second object pronoun */
+  SecondObject: 2
+});
+
+
+/**
  * Represents a Segment of the Holy Quran.
+ * @class
  */
 Morphology.Segment = (function() {
   'use strict';
@@ -309,18 +384,46 @@ Morphology.Segment = (function() {
     return true;
   }
 
-  /**
-   * Sets the part of speech of the given segment depending on the part of
-   * speech value.
+  /* *
+   * Sets the part of speech of the given segment depending on the given string
+   * value.
    * @param {Morphology.Segment} segment The segment.
    * @param {string} partOfSpeech The string representing the part of speech.
    * @private
    */
-  function _setPartOfSpeech(segment, partOfSpeech) {
+  /*function _setPartOfSpeech(segment, partOfSpeech) {
     if (!Morphology.PartOfSpeeh.isValidValue(partOfSpeech)) {
       throw 'Invalid part of speech value.';
     }
     segment.partOfSpeech = new Morphology.PartOfSpeeh(partOfSpeech);
+  }*/
+
+  /**
+   * Sets the verb aspect of the given segment depending on the given string
+   * value.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {string} verbAspect The string representing the aspect of the verb.
+   * @private
+   */
+  function _setVerbAspect(segment, verbAspect) {
+    if (!Morphology.VerbAspect.isValidValue(verbAspect)) {
+      throw 'Invalid verb aspect speech value.';
+    }
+    segment.verbAspect = new Morphology.VerbAspect(verbAspect);
+  }
+
+  /**
+   * Sets the verb form of the given segment depending on the given string
+   * value.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {string} verbForm The string representing the form of the verb.
+   * @private
+   */
+  function _setVerbForm(segment, verbForm) {
+    if (!Morphology.VerbForm.isValidValue(verbForm)) {
+      throw 'Invalid verb form speech value.';
+    }
+    segment.verbForm = new Morphology.VerbForm(verbForm);
   }
 
   /**
@@ -360,15 +463,15 @@ Morphology.Segment = (function() {
 
 
   /**
-   * If the feature passed to the function specifies the person type, gender, or
-   * number of the segment, this function reads it and returns true, otherwise
-   * it returns false.
+   * If the feature passed to the function specifies the phi features, this
+   * function reads it and return true, otherwise it returns false. Phi features
+   * are the person type, the gender, and the number of the segment.
    * @param {Morphology.Segment} segment The segment.
    * @param {String} feature A string specifying the feature.
    * @return {boolean} true or false depending on the success of the function.
    * @private
    */
-  function _readPersonGenderNumber(segment, feature) {
+  function _readPhiFeatures(segment, feature) {
     var allowedValues = ['1P', '1S', '2D', '2FP', '2FS',
       '2MD', '2FD', '2MP', '2MS', '3D', '3FD', '3FP', '3FS', '3MD',
       '3MP', '3MS', 'F', 'FD', 'FP', 'FS', 'M', 'MD', 'MP', 'MS', 'P'];
@@ -407,8 +510,15 @@ Morphology.Segment = (function() {
       // document seems to do the job.
       //'POS': _setPartOfSpeech,
       'DER': _setDerivation,
+      'ASP': _setVerbAspect,
+      'FRM': _setVerbForm,
       'LEM': _setLemma,
-      'ROOT': _setRoot
+      'ROOT': _setRoot,
+      // "PRON:" field only contains the person, gender, and number.
+      // TODO: This means that the field "PRON:" is not giving us any value,
+      // because we already know that a segment is a pronoun through its
+      // part of speech value.
+      'PRON': _readPhiFeatures
     };
     var featuresItems = segment.features.split('|');
     for (i = 0; i < featuresItems.length; i++) {
@@ -418,7 +528,7 @@ Morphology.Segment = (function() {
       else if (_setCase(segment, featuresItems[i])) {
         continue;
       }
-      else if (_readPersonGenderNumber(segment, featuresItems[i])) {
+      else if (_readPhiFeatures(segment, featuresItems[i])) {
         continue;
       }
       var feature = featuresItems[i].split(':');
@@ -440,19 +550,20 @@ Morphology.Segment = (function() {
    * @constructor
    */
   var Segment = function(remoteSegment) {
-    // Not sued for now. Uncomment when you need them.
-    //this.chapterNo = remoteSegment.chapter_no;
-    //this.verseNo = remoteSegment.verse_no;
-    //this.tokenNo = remoteSegment.token_no;
-    //this.segmentNo = remoteSegment.segment_no;
-    //this.form = remoteSegment.form;
+    // Not used for now. Uncomment when you need them.
+    this.chapterNo = remoteSegment.chapter_no;
+    this.verseNo = remoteSegment.verse_no;
+    this.tokenNo = remoteSegment.token_no;
+    this.segmentNo = remoteSegment.segment_no;
+    this.document = null;
+    this.indexInDoc = null;
+    this.form = remoteSegment.form;
     this.features = remoteSegment.features;
-    //this.tag = remoteSegment.tag;
     this.type = null;
     // TODO: 'case' is a reserved word, so it might be better to find another
     // word, but I can't think of anything at this moment, because 'case' is
     // the word used in Kais's work, and if I use a word like caseType, then
-    // it will different than the naming convention used in other fields.
+    // it will be different than the naming convention used in other fields.
     this.case = null;
     // In the Java application, the tag is being decided for prefixes depending
     // on the prefix itself, e.g. bi+ is a preposition. But the tag coming
@@ -464,6 +575,8 @@ Morphology.Segment = (function() {
     }
     this.partOfSpeech = new Morphology.PartOfSpeeh(remoteSegment.tag);
     this.derivation = null;
+    this.verbAspect = null;
+    this.verbForm = null;
     this.lemma = null;
     this.root = null;
     this.person = null;
@@ -497,11 +610,51 @@ Morphology.Segment = (function() {
       // ضمير منفصل
       name = 'personal pronoun';
     }
-    else if (segment.type.value === Morphology.SegmentType.Stem) {
-      throw 'Not implemented yet.';
+    else if (segment.type.value === Morphology.SegmentType.Suffix) {
+      return segment.findPronounType().toDescription().toLowerCase() +
+          ' pronoun';
     }
     return name;
   }
+
+  /**
+   * Retrieves the document object containing this segment.
+   * @return {?Morphology.Document} The document, or null if no document is
+   * specified.
+   */
+  Segment.prototype.getDocument = function() {
+    return this.document;
+  };
+
+  /**
+   * Retrieves the segment coming after this segment in the document.
+   * @return {Morphology.Segment} The next segment, or null if this is the last
+   * segment in the document.
+   */
+  Segment.prototype.getNext = function() {
+    if (this.document === null || this.indexInDoc === null) {
+      throw 'This segment is not in a document so navigation is not possible.';
+    }
+    if (this.indexInDoc === this.document.getSegmentCount()) {
+      return null;
+    }
+    return this.document.getSegment(this.indexInDoc + 1);
+  };
+
+  /**
+   * Retrieves the segment coming before this segment in the document.
+   * @return {Morphology.Segment} The previous segment, or null if this is the
+   * first segment in the document.
+   */
+  Segment.prototype.getPrev = function() {
+    if (this.document === null || this.indexInDoc === null) {
+      throw 'This segment is not in a document so navigation is not possible.';
+    }
+    if (this.indexInDoc === 0) {
+      return null;
+    }
+    return this.document.getSegment(this.indexInDoc - 1);
+  };
 
   /**
    * Retrieves the name of the segment, e.g. noun, active participle, etc.
@@ -522,6 +675,53 @@ Morphology.Segment = (function() {
     }
 
     throw "Couldn't find the name of the segment.";
+  };
+
+  /**
+   * Retrieves a string representing the location of this segment in the Holy
+   * Quran, e.g. (1:7:1:1) for sirata (صراط) in Surat Al-Fatiha.
+   * @return {string} A string representing the location of the segment.
+   */
+  Segment.prototype.getLocationString = function() {
+    return '{0}:{1}:{2}:{3}'.format(this.chapterNo, this.verseNo,
+        this.tokenNo, this.segmentNo);
+  };
+
+  /**
+   * If this segment is a pronoun, this function retrieves its type.
+   * @return {?Morphology.PronounType} The type of the pronoun, or null if
+   * the segment is not a pronoun.
+   */
+  Segment.prototype.findPronounType = function() {
+    if (this.partOfSpeech.value !== Morphology.PartOfSpeeh.Pronoun) {
+      // Not a pronoun!
+      return null;
+    }
+    var prevSeg = this.getPrev();
+    var ret;
+    if (this.form === 'naA' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Verb &&
+        prevSeg.verbAspect.value === Morphology.VerbAspect.Imperative) {
+      // The pronoun 'naA' (نا) coming after an imperative verb is an object
+      // pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Object);
+    }
+    else if (this.form === 'ta' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Verb &&
+        prevSeg.verbAspect.value === Morphology.VerbAspect.Perfect) {
+      // The pronoun 'ta' (ت) coming after a perfect verb is a subject pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Subject);
+    }
+    else if (this.form === 'himo' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Preposition) {
+      // The pronoun 'himo' (هِم) coming after a preposition is an object
+      // pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Object);
+    }
+    else {
+      throw 'Not implemented yet';
+    }
+    return ret;
   };
 
   /**
