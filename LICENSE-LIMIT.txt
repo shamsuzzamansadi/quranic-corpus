@@ -6,3 +6,8 @@ licence:
 - All third party libraries used within the project like jQuery, AngularJS, etc.
 - website/static/js/jsoop.js
 - website/static/js/string.js
+- website/static/data/holy-quran-segments.csv
+- website/static/data/holy-quran-tokens.csv
+- website/static/data/quran-corpus-morphology-0.4.csv
+- website/static/data/quran-corpus-morphology-0.5.csv
+
