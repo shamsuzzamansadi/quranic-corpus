@@ -86,8 +86,8 @@ class QuranSegment(models.Model):
   verse_no = models.SmallIntegerField(db_index=True)
   token_no = models.SmallIntegerField(db_index=True)
   segment_no = models.SmallIntegerField(db_index=True)
+  type = models.CharField(max_length=20, db_index=True)
   form = models.CharField(max_length=20, db_index=True)
-  tag = models.CharField(max_length=20, db_index=True)
   features = models.CharField(max_length=100, db_index=True)
   token = models.ForeignKey(QuranToken, related_name='segments')
 
@@ -106,8 +106,8 @@ class QuranSegment(models.Model):
       'verse_no': self.verse_no,
       'token_no': self.token_no,
       'segment_no': self.segment_no,
+      'type': self.type,
       'form': self.form,
-      'tag': self.tag,
       'features': self.features,
     }
 
@@ -118,8 +118,8 @@ class QuranSegment(models.Model):
                      self.verse_no,
                      self.token_no,
                      self.segment_no,
+                     self.type,
                      self.form,
-                     self.tag,
                      self.features])
 
   def read_from_csv_row(self, row):
@@ -129,7 +129,7 @@ class QuranSegment(models.Model):
      self.verse_no,
      self.token_no,
      self.segment_no,
+     self.type,
      self.form,
-     self.tag,
      self.features] = row
 

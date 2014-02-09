@@ -79,16 +79,15 @@ delete from morphology_quransegment;
 
 load data local infile '%s'
 into table morphology_quransegment
-fields terminated by ','
+fields terminated by '\\t'
 enclosed by '"'
 lines terminated by '\\n'
 (segment_id, token_id, chapter_no, verse_no, token_no,
- segment_no, form, tag, features);  """ % HOLY_QURAN_SEGMENTS_PATH)
+ segment_no, type, form, features);  """ % HOLY_QURAN_SEGMENTS_PATH)
     cursor.close()
     db.commit()
     db.close()
-    return HttpResponse(
-      'Segments data successfully load into database.')
+    return HttpResponse('Segments data successfully load into database.')
   except Exception as e:
     return HttpResponse(
       'Failed to load segments data into database.\n' + e.message)

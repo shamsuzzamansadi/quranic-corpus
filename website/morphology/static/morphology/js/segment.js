@@ -384,19 +384,19 @@ Morphology.Segment = (function() {
     return true;
   }
 
-  /* *
+  /**
    * Sets the part of speech of the given segment depending on the given string
    * value.
    * @param {Morphology.Segment} segment The segment.
    * @param {string} partOfSpeech The string representing the part of speech.
    * @private
    */
-  /*function _setPartOfSpeech(segment, partOfSpeech) {
+  function _setPartOfSpeech(segment, partOfSpeech) {
     if (!Morphology.PartOfSpeeh.isValidValue(partOfSpeech)) {
       throw 'Invalid part of speech value.';
     }
     segment.partOfSpeech = new Morphology.PartOfSpeeh(partOfSpeech);
-  }*/
+  }
 
   /**
    * Sets the verb aspect of the given segment depending on the given string
@@ -508,7 +508,7 @@ Morphology.Segment = (function() {
       // contain the part of speech (e.g. POS|N), so sometimes we need to do
       // some processing, so for now the field provided by the morphology
       // document seems to do the job.
-      //'POS': _setPartOfSpeech,
+      'POS': _setPartOfSpeech,
       'DER': _setDerivation,
       'ASP': _setVerbAspect,
       'FRM': _setVerbForm,
@@ -518,7 +518,7 @@ Morphology.Segment = (function() {
       // TODO: This means that the field "PRON:" is not giving us any value,
       // because we already know that a segment is a pronoun through its
       // part of speech value.
-      'PRON': _readPhiFeatures
+      'PHI': _readPhiFeatures
     };
     var featuresItems = segment.features.split('|');
     for (i = 0; i < featuresItems.length; i++) {
@@ -559,21 +559,13 @@ Morphology.Segment = (function() {
     this.indexInDoc = null;
     this.form = remoteSegment.form;
     this.features = remoteSegment.features;
-    this.type = null;
+    this.type = new Morphology.SegmentType(remoteSegment.type);
     // TODO: 'case' is a reserved word, so it might be better to find another
     // word, but I can't think of anything at this moment, because 'case' is
     // the word used in Kais's work, and if I use a word like caseType, then
     // it will be different than the naming convention used in other fields.
     this.case = null;
-    // In the Java application, the tag is being decided for prefixes depending
-    // on the prefix itself, e.g. bi+ is a preposition. But the tag coming
-    // from the morphology file is actually the part of speech, so I am just
-    // using it here. If this proves to be incorrect, then we need to implement
-    // the functionality to extract the part of speech.
-    if (!Morphology.PartOfSpeeh.isValidValue(remoteSegment.tag)) {
-      throw 'Invalid segment tag.';
-    }
-    this.partOfSpeech = new Morphology.PartOfSpeeh(remoteSegment.tag);
+    this.partOfSpeech = null;
     this.derivation = null;
     this.verbAspect = null;
     this.verbForm = null;

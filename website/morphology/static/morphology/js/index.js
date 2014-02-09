@@ -63,12 +63,14 @@
           chapter: $scope.selectedChapter.index,
           verse: $scope.selectedVerse
         }, function(tokens) {
-          _.forEach(tokens, function(token) {
+          tokens.forEach(function(token) {
             var descriptor = new Morphology.Descriptor();
             var document = new Morphology.Document(token.segments);
-            _.forEach(token.segments, function(segment, index) {
+            token.segments.forEach(function(segment, index) {
               segment.description = descriptor.generateSegmentDescription(
                   document.getSegment(index));
+              segment.partOfSpeech =
+                  document.getSegment(index).partOfSpeech.value;
             });
           });
         });

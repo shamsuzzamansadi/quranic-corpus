@@ -50,7 +50,7 @@
 
     <!-- Basmala -->
     <div id="basmala" class="basmala" style="display: none;">
-      <img src="{% static "img/basmala.png" %}">
+      <img data-ng-src="{% static "img/basmala.png" %}">
     </div>
 
     <!-- Chapter Title -->
@@ -74,10 +74,12 @@
           </div>
           [[token.translation]]
         </td>
-        <td><img src="http://corpus.quran.com/wordimage?id=[[ token.token_id]]" /></td>
+        <td><img data-ng-src="http://corpus.quran.com/wordimage?id=[[ token.token_id]]" /></td>
         <td style="text-align: right;">
           <div ng-repeat="segment in token.segments">
-            <span style="font-weight: bold;" class="segment_[[ segment.tag ]]">[[ segment.tag ]]</span>
+            <span style="font-weight: bold;" class="segment_[[ segment.partOfSpeech ]]">
+              [[ segment.partOfSpeech ]]
+            </span>
             -
             <span>[[ segment.description ]]</span>
           </div>
