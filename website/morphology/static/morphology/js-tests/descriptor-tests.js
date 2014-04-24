@@ -24,44 +24,7 @@
 
 (function() {
   'use strict';
-  var segmentsDescriptions = [
-    'prefixed preposition',
-    'genitive masculine noun',
-    'genitive proper noun',
-    'prefixed determiner',
-    'genitive masculine singular adjective',
-    'genitive masculine singular adjective',
-    'nominative masculine noun',
-    'prefixed preposition',
-    'genitive proper noun',
-    'genitive masculine noun',
-    'genitive masculine plural noun',
-    'genitive masculine active participle',
-    'genitive masculine noun',
-    'genitive masculine noun',
-    '2nd person masculine singular personal pronoun',
-    '1st person plural imperfect verb',
-    'prefixed conjunction',
-    '2nd person masculine singular personal pronoun',
-    '1st person plural (form X) imperfect verb',
-    '2nd person masculine singular imperative verb',
-    '1st person plural object pronoun',
-    'accusative masculine noun',
-    'accusative masculine (form X) active participle',
-    'accusative masculine noun',
-    'masculine plural relative pronoun',
-    '2nd person masculine singular (form IV) perfect verb',
-    'subject pronoun',
-    'preposition',
-    '3rd person masculine plural object pronoun',
-    'genitive masculine noun',
-    'genitive masculine passive participle',
-    'preposition',
-    '3rd person masculine plural object pronoun',
-    'prefixed conjunction',
-    'negative particle',
-    'genitive masculine plural active participle'
-  ];
+
 
   /**
    * Create a QUnit unit test that generates the description for the given
@@ -80,9 +43,21 @@
     });
   }
 
-  var i;
-  var document = new Morphology.Document(MorphologyTests.alfatihaSegments);
+  var i, segment, description, document;
+
+  // Creates the tests for Surat Al-Fatiha.
+  document = new Morphology.Document(MorphologyTests.alfatihaSegments);
   for (i = 0; i < MorphologyTests.alfatihaSegments.length; i++) {
-    createDescriptionTest(document.getSegment(i), segmentsDescriptions[i]);
+    segment = document.getSegment(i);
+    description = MorphologyTests.alfatihaDescriptions[i];
+    createDescriptionTest(segment, description);
+  }
+
+  // Creates the tests for Surat Al-Baqara.
+  document = new Morphology.Document(MorphologyTests.albaqaraSegments);
+  for (i = 0; i < 10; /*MorphologyTests.albaqaraSegments.length;*/ i++) {
+    segment = document.getSegment(i);
+    description = MorphologyTests.albaqaraDescriptions[i];
+    createDescriptionTest(segment, description);
   }
 }());

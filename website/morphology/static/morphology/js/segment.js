@@ -273,6 +273,20 @@ Morphology.Derivation = Jsoop.defineEnum({
 });
 
 
+// TODO: Is the state only applicable for nouns? I believe yes, but just being
+// paranoid.
+/**
+ * An enumeration used to specify the state of a noun.
+ * @enum {string}
+ */
+Morphology.NounState = Jsoop.defineEnum({
+  /** Definite state (DEF) */
+  Definite: 'DEF',
+  /** Indefinite state (INDEF) */
+  Indefinite: 'INDEF'
+});
+
+
 /**
  * An enumeration used to specify the aspect of a verb. The aspect of the
  * verb can be either perfect, imperfect, or imperative.
@@ -317,8 +331,8 @@ Morphology.VerbForm = Jsoop.defineEnum({
   Sixth: 'VI',
   /** Seventh form (VII) */
   Seventh: 'VII',
-  /** Eighth form (IIX) */
-  Eighth: 'IIX',
+  /** Eighth form (VIII) */
+  Eighth: 'VIII',
   /** Ninth form (IIX) */
   Ninth: 'IX',
   /** Tenth form (IX) */
@@ -440,6 +454,18 @@ Morphology.Segment = (function() {
   }
 
   /**
+   * Sets the state of the given noun segment.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {string} derivation The string representing the state.
+   * @private
+   */
+  function _setNounState(segment, nounState) {
+    if (!Morphology.NounState.isValidValue(nounState)) {
+      throw 'Invalid derivation value.';
+    }
+    segment.nounState = new Morphology.NounState(nounState);
+  }
+  /**
    * Sets the lemma of the segment to the given one.
    * @param {Morphology.Segment} segment The segment.
    * @param {String} lemma The lemma.
@@ -514,6 +540,7 @@ Morphology.Segment = (function() {
       'FRM': _setVerbForm,
       'LEM': _setLemma,
       'ROOT': _setRoot,
+      'STATE': _setNounState,
       // "PRON:" field only contains the person, gender, and number.
       // TODO: This means that the field "PRON:" is not giving us any value,
       // because we already know that a segment is a pronoun through its
@@ -574,6 +601,7 @@ Morphology.Segment = (function() {
     this.person = null;
     this.gender = null;
     this.number = null;
+    this.nounState = null;
 
     _extractFeatures(this);
   };
@@ -659,6 +687,10 @@ Morphology.Segment = (function() {
 
     if (this.partOfSpeech !== null) {
       switch (this.partOfSpeech.value) {
+        case Morphology.PartOfSpeeh.Initials:
+          return 'Quranic initials';
+        case Morphology.PartOfSpeeh.Demonstrative:
+          return 'demonstrative pronoun';
         case Morphology.PartOfSpeeh.Pronoun:
           return _getPronounName(this);
         default:
@@ -710,7 +742,12 @@ Morphology.Segment = (function() {
       // pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Object);
     }
-    else {
+    else if (this.form === 'hi' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Preposition) {
+      // The pronoun 'hi' (هـِ) coming after a preposition is an object
+      // pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Object);
+    }  else {
       throw 'Not implemented yet';
     }
     return ret;

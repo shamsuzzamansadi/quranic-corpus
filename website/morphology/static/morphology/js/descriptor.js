@@ -123,6 +123,18 @@ Morphology.Descriptor = (function() {
   }
 
   /**
+   * Appends the noun state of the stem to the given description array.
+   * @param {Morphology.Segment} segment
+   * @param {string[]} descArray An array containing the words making up the
+   * description of the stem.
+   * @private
+   */
+  function _appendNounState(segment, descArray) {
+    if (segment.nounState !== null) {
+      descArray.push(segment.nounState.toString().toLowerCase());
+    }
+  }
+  /**
    * Appends the verb form to the given description array.
    * @param {Morphology.Segment} segment
    * @param {string[]} descArray An array containing the words making up the
@@ -159,6 +171,7 @@ Morphology.Descriptor = (function() {
     var descArray = [];
     _appendStemCase(segment, descArray);
     _appendStemPhiFeatures(segment, descArray);
+    _appendNounState(segment, descArray);
     _appendStemForm(segment, descArray);
     _appendStemAspect(segment, descArray);
     descArray.push(segment.getName());
