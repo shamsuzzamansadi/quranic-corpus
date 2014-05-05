@@ -145,7 +145,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 2,
     'type': 'PREFIX',
-    'features': 'l:P+|POS:P'
+    'features': 'l:P+|POS:P|LEM:l'
   },
   {
     'token_no': 7,
@@ -205,7 +205,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 3,
     'type': 'PREFIX',
-    'features': 'bi+|POS:P'
+    'features': 'bi+|POS:P|LEM:b'
   },
   {
     'token_no': 3,
@@ -235,7 +235,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 3,
     'type': 'PREFIX',
-    'features': 'w:CONJ+|POS:CONJ'
+    'features': 'w:CONJ+|POS:CONJ|LEM:w'
   },
   {
     'token_no': 4,

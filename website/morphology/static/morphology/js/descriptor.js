@@ -61,7 +61,33 @@ Morphology.Descriptor = (function() {
    * @private
    */
   function _generatePrefixDescription(segment) {
-    return 'prefixed ' + segment.getName();
+    var desc = 'prefixed ' + segment.getName();
+
+    if (segment.partOfSpeech.value === Morphology.PartOfSpeeh.Preposition) {
+      switch (segment.lemma) {
+        case 'l':
+          desc += ' {lAm}';
+          break;
+
+        case 'b':
+          desc += ' {bi}';
+          break;
+      }
+    } else if (segment.partOfSpeech.value ===
+        Morphology.PartOfSpeeh.Conjunction) {
+      switch (segment.lemma) {
+        case 'w':
+          desc += ' {wa} (and)';
+          break;
+      }
+    }
+    /** TODO: Implement the rest of the conditions from the Java code, file
+     * DescriptorWriter.java, line 163.
+     */
+    /*else {
+     }*/
+
+    return desc;
   }
 
   /**

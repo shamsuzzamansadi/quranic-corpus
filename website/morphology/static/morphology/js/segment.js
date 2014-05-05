@@ -729,25 +729,26 @@ Morphology.Segment = (function() {
       // The pronoun 'naA' (نا) coming after an imperative verb is an object
       // pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Object);
-    }
-    else if (this.form === 'ta' &&
+    } else if (this.form === 'ta' &&
         prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Verb &&
         prevSeg.verbAspect.value === Morphology.VerbAspect.Perfect) {
       // The pronoun 'ta' (ت) coming after a perfect verb is a subject pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Subject);
-    }
-    else if (this.form === 'himo' &&
+    } else if (this.form === 'himo' &&
         prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Preposition) {
       // The pronoun 'himo' (هِم) coming after a preposition is an object
       // pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Object);
-    }
-    else if (this.form === 'hi' &&
+    } else if (this.form === 'hi' &&
         prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Preposition) {
       // The pronoun 'hi' (هـِ) coming after a preposition is an object
       // pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Object);
-    }  else {
+    } else if (this.form === 'wna' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Verb) {
+      // The pronoun 'wna' (ون) coming after a verb is a subject pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Subject);
+    } else {
       throw 'Not implemented yet';
     }
     return ret;
