@@ -233,7 +233,7 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   Equalization: 'EQ',
 
   /** Harf istinaf (REM). */
-  Resumption: 'REM',
+  ResumptionParticle: 'REM',
 
   /** Harf sababiyya (CAUS). */
   Cause: 'CAUS',

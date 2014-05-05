@@ -55,7 +55,7 @@
 
   // Creates the tests for Surat Al-Baqara.
   document = new Morphology.Document(MorphologyTests.albaqaraSegments);
-  for (i = 0; i < 20; /*MorphologyTests.albaqaraSegments.length;*/ i++) {
+  for (i = 0; i < MorphologyTests.albaqaraSegments.length; i++) {
     segment = document.getSegment(i);
     description = MorphologyTests.albaqaraDescriptions[i];
     createDescriptionTest(segment, description);
