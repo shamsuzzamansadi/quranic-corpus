@@ -45,7 +45,7 @@
 
   var i, segment, description, document;
 
-  // Creates the tests for Surat Al-Fatiha.
+  /*// Creates the tests for Surat Al-Fatiha.
   document = new Morphology.Document(MorphologyTests.alfatihaSegments);
   for (i = 0; i < MorphologyTests.alfatihaSegments.length; i++) {
     segment = document.getSegment(i);
@@ -59,6 +59,12 @@
     segment = document.getSegment(i);
     description = MorphologyTests.albaqaraDescriptions[i];
     createDescriptionTest(segment, description);
-  }
+  }*/
 
+  document = new Morphology.Document(MorphologyTests.quranSegments1_10000);
+  for (i = 0; i < 1000 /*MorphologyTests.quranSegments1_10000.length*/; i++) {
+    segment = document.getSegment(i);
+    description = MorphologyTests.quranSegments1_10000Descriptions[i];
+    createDescriptionTest(segment, description);
+  }
 }());

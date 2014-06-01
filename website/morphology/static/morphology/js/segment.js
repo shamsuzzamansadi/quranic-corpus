@@ -149,7 +149,7 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   Interrogative: 'INTG',
 
   /** Vocative particle (VOC). */
-  Vocative: 'VOC',
+  VocativeParticle: 'VOC',
 
   /** Negative particle (NEG). */
   NegativeParticle: 'NEG',
@@ -176,25 +176,25 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   Initials: 'INL',
 
   /** Time adverb (T). */
-  Time: 'T',
+  TimeAdverb: 'T',
 
   /** Location adverb (LOC). */
-  Location: 'LOC',
+  LocationAdverb: 'LOC',
 
   /** Harf nasb (ACC). */
-  Accusative: 'ACC',
+  AccusativeParticle: 'ACC',
 
-  /** Harf shart (COND). */
-  Conditional: 'COND',
+  /** Conditional particle (harf shart) (COND). */
+  ConditionalParticle: 'COND',
 
   /** Harf masdaree (SUB). */
   SubordinatingConjunction: 'SUB',
 
-  /** Adaat hasr (RES). */
-  Restriction: 'RES',
+  /** Restriction particle (adaat hasr) (RES). */
+  RestrictionParticle: 'RES',
 
-  /** Adaat istithnaa (EXP). */
-  Exceptive: 'EXP',
+  /** Exceptive particle (adaat istithnaa) (EXP). */
+  ExceptiveParticle: 'EXP',
 
   /** Harf rad3 (AVR). */
   Aversion: 'AVR',
@@ -205,20 +205,20 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   /** Harf idraab (RET). */
   Retraction: 'RET',
 
-  /** Kaafa wa makfoofa (PREV). */
-  Preventive: 'PREV',
+  /** Preventive particle (kaafa wa makfoofa) (PREV). */
+  PreventiveParticle: 'PREV',
 
   /** Harf jawaab (ANS). */
   Answer: 'ANS',
 
-  /** Harf ibtidaa (INC). */
-  Inceptive: 'INC',
+  /** Inceptive particle (harf ibtidaa) (INC). */
+  InceptiveParticle: 'INC',
 
   /** Harf fajaa (SUR). */
   Surprise: 'SUR',
 
-  /** Harf za'ida (SUP). */
-  Supplemental: 'SUP',
+  /** Supplemental particle (harf za'ida) (SUP). */
+  SupplementalParticle: 'SUP',
 
   /** Harf tahdeed (EXH). */
   Exhortation: 'EXH',
@@ -230,25 +230,26 @@ Morphology.PartOfSpeeh = Jsoop.defineEnum({
   Explanation: 'EXL',
 
   /** Harf taswiya (EQ). */
-  Equalization: 'EQ',
+  EqualizationParticle: 'EQ',
 
   /** Harf istinaf (REM). */
   ResumptionParticle: 'REM',
 
+  // TODO: Consider renaming this!
   /** Harf sababiyya (CAUS). */
-  Cause: 'CAUS',
+  ParticleOfCause: 'CAUS',
 
-  /** Harf istidrak (AMD). */
-  Amendment: 'AMD',
+  /** Amendment particle (harf istidrak) (AMD). */
+  AmendmentParticle: 'AMD',
 
   /** Prohibition particle (PRO). */
-  Prohibition: 'PRO',
+  ProhibitionParticle: 'PRO',
 
   /** Circumstantial particle (CIRC). */
-  Circumstantial: 'CIRC',
+  CircumstantialParticle: 'CIRC',
 
-  /** Result (RSLT). */
-  Result: 'RSLT',
+  /** Result particle (RSLT). */
+  ResultParticle: 'RSLT',
 
   /** Interpretation (INT). */
   Interpretation: 'INT',
@@ -270,6 +271,18 @@ Morphology.Derivation = Jsoop.defineEnum({
   PassiveParticiple: 'PASS PCPL',
   /** Verbal Noun (VN) */
   VerbalNoun: 'VN'
+});
+
+
+/**
+ * An enumeration used to specify the voice of a certain verb.
+ * @enum {string}
+ */
+Morphology.VoiceType = Jsoop.defineEnum({
+  /** Active (ACT) */
+  Active: 'ACT',
+  /** Passive (PASS) */
+  Passive: 'PASS'
 });
 
 
@@ -452,6 +465,18 @@ Morphology.Segment = (function() {
     }
     segment.derivation = new Morphology.Derivation(derivation);
   }
+  /**
+   * Sets the derivation of the given segment to the given derivation value.
+   * @param {Morphology.Segment} segment The segment.
+   * @param {string} derivation The string representing the derivation.
+   * @private
+   */
+  function _setVoiceType(segment, voiceType) {
+    if (!Morphology.VoiceType.isValidValue(voiceType)) {
+      throw 'Invalid voice type value.';
+    }
+    segment.voiceType = new Morphology.VoiceType(voiceType);
+  }
 
   /**
    * Sets the state of the given noun segment.
@@ -536,6 +561,7 @@ Morphology.Segment = (function() {
       // document seems to do the job.
       'POS': _setPartOfSpeech,
       'DER': _setDerivation,
+      'VT': _setVoiceType,
       'ASP': _setVerbAspect,
       'FRM': _setVerbForm,
       'LEM': _setLemma,
@@ -594,6 +620,7 @@ Morphology.Segment = (function() {
     this.case = null;
     this.partOfSpeech = null;
     this.derivation = null;
+    this.voiceType = null;
     this.verbAspect = null;
     this.verbForm = null;
     this.lemma = null;
@@ -729,11 +756,23 @@ Morphology.Segment = (function() {
       // The pronoun 'naA' (نا) coming after an imperative verb is an object
       // pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Object);
+    } else if (this.form === 'na`' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Verb &&
+        prevSeg.verbAspect.value === Morphology.VerbAspect.Perfect) {
+      // The pronoun 'naA' (نا) coming after a perfect verb is a subject
+      // pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Subject);
     } else if (this.form === 'ta' &&
         prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Verb &&
         prevSeg.verbAspect.value === Morphology.VerbAspect.Perfect) {
       // The pronoun 'ta' (ت) coming after a perfect verb is a subject pronoun.
       ret = new Morphology.PronounType(Morphology.PronounType.Subject);
+    } else if (this.form === 'humo' &&
+        prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Pronoun &&
+        prevSeg.form === 'na`') {
+      // The pronoun 'humo' (هُم) coming after the pronoun (نا) is an object
+      // pronoun.
+      ret = new Morphology.PronounType(Morphology.PronounType.Object);
     } else if (this.form === 'himo' &&
         prevSeg.partOfSpeech.value === Morphology.PartOfSpeeh.Preposition) {
       // The pronoun 'himo' (هِم) coming after a preposition is an object

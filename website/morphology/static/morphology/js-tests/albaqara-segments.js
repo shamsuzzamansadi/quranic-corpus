@@ -20,10 +20,9 @@
  */
 
 /**
- * This file contains most of the segments (excluding repeated) of Surat
- * Al-Fatiha. The data are copied from the Django web service and dumped into
- * this file so that we can execute unit tests without having to make ajax
- * requests.
+ * This file contains the segments of the first 30 verses of Surat Al-Baqarat.
+ * The data are copied from the Django web service and dumped into this file
+ * so that we can execute unit tests without having to make Ajax requests.
  *
  * @author rafidka@gmail.com (Rafid K. Abdullah)
  */
@@ -425,7 +424,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 4,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|FRM:IV|LEM:>anzala|ROOT:nzl|PHI:3MS'
+    'features': 'POS:V|ASP:PERF|VT:PASS|FRM:IV|LEM:>anzala|ROOT:nzl|PHI:3MS'
   },
   {
     'token_no': 5,
@@ -475,7 +474,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 4,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|FRM:IV|LEM:>anzala|ROOT:nzl|PHI:3MS'
+    'features': 'POS:V|ASP:PERF|VT:PASS|FRM:IV|LEM:>anzala|ROOT:nzl|PHI:3MS'
   },
   {
     'token_no': 8,
@@ -1675,7 +1674,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 11,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|LEM:qaAla|ROOT:qwl|PHI:3MS'
+    'features': 'POS:V|ASP:PERF|VT:PASS|LEM:qaAla|ROOT:qwl|PHI:3MS'
   },
   {
     'token_no': 3,
@@ -1955,7 +1954,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 13,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|LEM:qaAla|ROOT:qwl|PHI:3MS'
+    'features': 'POS:V|ASP:PERF|VT:PASS|LEM:qaAla|ROOT:qwl|PHI:3MS'
   },
   {
     'token_no': 3,
@@ -5025,7 +5024,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 24,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|FRM:IV|LEM:>aEad~a|ROOT:Edd|PHI:3FS'
+    'features': 'POS:V|ASP:PERF|VT:PASS|FRM:IV|LEM:>aEad~a|ROOT:Edd|PHI:3FS'
   },
   {
     'token_no': 13,
@@ -5275,7 +5274,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 25,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|LEM:razaqa|ROOT:rzq|PHI:3MP'
+    'features': 'POS:V|ASP:PERF|VT:PASS|LEM:razaqa|ROOT:rzq|PHI:3MP'
   },
   {
     'token_no': 14,
@@ -5385,7 +5384,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 25,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|LEM:razaqa|ROOT:rzq|PHI:1P'
+    'features': 'POS:V|ASP:PERF|VT:PASS|LEM:razaqa|ROOT:rzq|PHI:1P'
   },
   {
     'token_no': 22,
@@ -5435,7 +5434,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 2,
     'verse_no': 25,
     'type': 'STEM',
-    'features': 'POS:V|ASP:PERF|PASS|LEM:>ataY|ROOT:Aty|PHI:3MP'
+    'features': 'POS:V|ASP:PERF|VT:PASS|LEM:>ataY|ROOT:Aty|PHI:3MP'
   },
   {
     'token_no': 25,
@@ -6375,7 +6374,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 27,
     'type': 'STEM',
-    'features': 'POS:V|ASP:IMPF|PASS|LEM:yaSilu|ROOT:wSl|PHI:3MS|MOOD:SUBJ'
+    'features': 'POS:V|ASP:IMPF|VT:PASS|LEM:yaSilu|ROOT:wSl|PHI:3MS|MOOD:SUBJ'
   },
   {
     'token_no': 15,
@@ -6695,7 +6694,7 @@ MorphologyTests.albaqaraSegments = [
     'segment_no': 1,
     'verse_no': 28,
     'type': 'STEM',
-    'features': 'POS:V|ASP:IMPF|PASS|LEM:rajaEa|ROOT:rjE|PHI:2MP'
+    'features': 'POS:V|ASP:IMPF|VT:PASS|LEM:rajaEa|ROOT:rjE|PHI:2MP'
   },
   {
     'token_no': 13,
@@ -8156,3 +8155,5 @@ MorphologyTests.albaqaraDescriptions = [
   '2nd person masculine plural imperfect verb',
   'subject pronoun'
 ];
+
+
