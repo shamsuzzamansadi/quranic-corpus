@@ -48,14 +48,31 @@ Morphology.Document = (function() {
    * @constructor
    */
   var Document = function(remoteSegments) {
-    var i;
+    var token, segment, segIndex, tokenIndex;
     this.segments = [];
-    for (i = 0; i < remoteSegments.length; i++) {
-      var segment = new Morphology.Segment(remoteSegments[i]);
-      segment.document = this;
-      segment.indexInDoc = i;
+    this.tokens = [];
+    for (segIndex = 0; segIndex < remoteSegments.length; segIndex++) {
+      // Creates a token to contain the segment if not already created.
+      if (this.hasTokenAtIndex(segIndex)) {
+        token = this.getToken(segIndex);
+      } else {
+        token = new Morphology.Token({
+          chapter_no: remoteSegments[segIndex].chapter_no,
+          verse_no: remoteSegments[segIndex].verse_no,
+          token_no: remoteSegments[segIndex].token_no
+        });
+        this.tokens.push(token);
+      }
+
+      // Creates the segment.
+      segment = new Morphology.Segment(remoteSegments[segIndex], this, token);
+      segment.indexInDoc = segIndex;
       this.segments.push(segment);
+
+      // Attaches the segment to the token.
+      token.setSegment(segment);
     }
+    debugger;
   };
 
   /**
@@ -72,10 +89,39 @@ Morphology.Document = (function() {
 
   /**
    * Retrieves the number of segments in the document.
-   * @return {number}
+   * @return {number} The number of segments in the document.
    */
   Document.prototype.getSegmentCount = function() {
     return this.segments.length;
+  };
+
+  /**
+   * Retrieves the token at the given index.
+   * @param {!number} index The index of the token to retrieve.
+   * @return {Morphology.Token} The token.
+   */
+  Document.prototype.getToken = function(index) {
+    if (index < 0 || index >= this.getSegmentCount()) {
+      throw 'Segment index out of range.';
+    }
+    return this.tokens[index];
+  };
+
+  /**
+   * Retrieves the number of tokens in the document.
+   * @return {number} The number of tokens in the document.
+   */
+  Document.prototype.getTokenCount = function() {
+    return this.tokens.length;
+  };
+
+  /**
+   * Determines whether there is a token with the given index.
+   * @param {!number} index The index of the token.
+   * @return {boolean} True or false.
+   */
+  Document.prototype.hasTokenAtIndex = function(index) {
+    return index >= 0 && index < this.getTokenCount();
   };
 
   return Document;

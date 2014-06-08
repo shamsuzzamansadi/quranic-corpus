@@ -272,15 +272,23 @@ Morphology.Segment = (function() {
    * from the server. This allows operations on segments to be executed on the
    * client-side.
    * @param {!Object} remoteSegment The segment object received from the server.
+   * @param {?Morphology.Document} document The Holy Quran document.
+   * @param {?Morphology.Token} token The token this segment belongs to.
    * @constructor
    */
-  var Segment = function(remoteSegment) {
-    // Not used for now. Uncomment when you need them.
+  var Segment = function(remoteSegment, document, token) {
     this.chapterNo = remoteSegment.chapter_no;
     this.verseNo = remoteSegment.verse_no;
     this.tokenNo = remoteSegment.token_no;
     this.segmentNo = remoteSegment.segment_no;
     this.document = null;
+    this.token = null;
+    if (document !== undefined) {
+      this.document = document;
+    }
+    if (document !== undefined) {
+      this.token = token;
+    }
     this.indexInDoc = null;
     this.form = remoteSegment.form;
     this.features = remoteSegment.features;
